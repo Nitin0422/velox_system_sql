@@ -63,6 +63,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'my_app.context_processors.site_settings'
             ],
         },
     },
@@ -115,9 +116,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+import os
 
 STATIC_URL = 'static/'
-STATIC_FILES = [BASE_DIR / 'static']
+STATIC_FILES = [BASE_DIR / 'my_app/static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
