@@ -1,18 +1,54 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import user_passes_test
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib.auth import login, authenticate, logout
+from .forms import RegistrationForm
+from django.contrib.auth.forms import AuthenticationForm
+
+
+
+
 
 # Create your views here.
-def is_hr(request):
-    return request.user.groups.filter(name='HR-Admin').exists()
+def is_hr(user):
+    return user.groups.filter(name='HR-Admin').exists()
 
-def is_finance(request):
-    return request.user.groups.filter(name='Finance-Admin').exists()
+def is_finance(user):
+    return user.groups.filter(name='Finance-Admin').exists()
 
 def home(request):
     return render(request, 'temps/home.html', {})
 
-def login(request):
-    return render(request, 'temps/login.html', {})
+def login_request(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data = request.POST)
+        if form.is_valid():
+            print("Form is valid")
+            username = form.cleaned_data.get('username')
+            print(username)
+            password = form.cleaned_data.get('password')
+            print(password)
+            user = authenticate(username = username, password = password)
+            print("User is: ", user)
+            if user is not None:
+                login(request, user)
+                print("Logged in hai")
+                return redirect('my_app:home')
+    form = AuthenticationForm()
+    return render(request, 'temps/login.html', {"form" : form})
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('my_app:home')
+    form = RegistrationForm()
+    return render(request, 'temps/register.html', {'form' : form})
+
+def logout_request(request):
+    logout(request)
+    return redirect('my_app:login')
 
 def item1(request):
     return render(request, 'temps/item1.html', {})
@@ -47,30 +83,47 @@ def mega_section_1_item32(request):
 def mega_section_1_item33(request):
     return render(request, 'temps/mega-section-1/item31.html', {})
 
+@login_required(login_url='/login/')
 @user_passes_test(is_hr, login_url= '/')
 def mega_section_2_item11(request):
     return render(request, 'temps/mega-section-2/item11.html', {})
+
+@login_required(login_url='/login/')
 @user_passes_test(is_hr, login_url= '/')
 def mega_section_2_item12(request):
     return render(request, 'temps/mega-section-2/item12.html', {})
+
+@login_required(login_url='/login/')
 @user_passes_test(is_hr, login_url= '/')
 def mega_section_2_item13(request):
     return render(request, 'temps/mega-section-2/item11.html', {})
+
+@login_required(login_url='/login/')
 @user_passes_test(is_hr, login_url= '/')
 def mega_section_2_item21(request):
     return render(request, 'temps/mega-section-2/item21.html', {})
+
+@login_required(login_url='/login/')
 @user_passes_test(is_hr, login_url= '/')
 def mega_section_2_item22(request):
     return render(request, 'temps/mega-section-2/item22.html', {})
+
+@login_required(login_url='/login/')
 @user_passes_test(is_hr, login_url= '/')
 def mega_section_2_item23(request):
     return render(request, 'temps/mega-section-2/item21.html', {})
+
+@login_required(login_url='/login/')
 @user_passes_test(is_hr, login_url= '/')
 def mega_section_2_item31(request):
     return render(request, 'temps/mega-section-2/item31.html', {})
+
+@login_required(login_url='/login/')
 @user_passes_test(is_hr, login_url= '/')
 def mega_section_2_item32(request):
     return render(request, 'temps/mega-section-2/item32.html', {})
+
+@login_required(login_url='/login/')
 @user_passes_test(is_hr, login_url= '/')
 def mega_section_2_item33(request):
     return render(request, 'temps/mega-section-2/item31.html', {})
