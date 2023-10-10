@@ -189,12 +189,8 @@
               </div>
               <!-- /Logo -->
 
-              <form
-                id="formAuthentication"
-                class="mb-3"
-                method="POST"
-              >
-              {% csrf_token %}
+              <form id="formAuthentication" class="mb-3" method="POST">
+                {% csrf_token %}
                 <div class="mb-3">
                   <label
                     for="{{ form.username.id_for_label }}"
@@ -212,7 +208,9 @@
                 </div>
 
                 <div class="mb-3">
-                  <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+                  <label for="{{ form.email.id_for_label }}" class="form-label"
+                    >Email</label
+                  >
                   <input
                     type="text"
                     class="form-control"
@@ -222,7 +220,11 @@
                   />
                 </div>
                 <div class="mb-3 form-password-toggle">
-                  <label class="form-label" for="{{form.password1.id_for_label}}">Password</label>
+                  <label
+                    class="form-label"
+                    for="{{form.password1.id_for_label}}"
+                    >Password</label
+                  >
                   <div class="input-group input-group-merge">
                     <input
                       type="password"
@@ -238,21 +240,25 @@
                   </div>
                 </div>
                 <div class="mb-3 form-password-toggle">
-                    <label class="form-label" for="{{form.password2.id_for_label}}">Confirm Password</label>
-                    <div class="input-group input-group-merge">
-                      <input
-                        type="password"
-                        id="{{form.password2.id_for_label}}"
-                        class="form-control"
-                        name="{{form.password2.name}}"
-                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                        aria-describedby="password"
-                      />
-                      <span class="input-group-text cursor-pointer"
-                        ><i class="bx bx-hide"></i
-                      ></span>
-                    </div>
+                  <label
+                    class="form-label"
+                    for="{{form.password2.id_for_label}}"
+                    >Confirm Password</label
+                  >
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="password"
+                      id="{{form.password2.id_for_label}}"
+                      class="form-control"
+                      name="{{form.password2.name}}"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      aria-describedby="password"
+                    />
+                    <span class="input-group-text cursor-pointer"
+                      ><i class="bx bx-hide"></i
+                    ></span>
                   </div>
+                </div>
 
                 <div class="mb-3">
                   <div class="form-check">
@@ -268,12 +274,14 @@
                     </label>
                   </div>
                 </div>
-                <button type = 'submit'  class="btn btn-primary d-grid w-100">Sign up</button>
+                <button type="submit" class="btn btn-primary d-grid w-100">
+                  Sign up
+                </button>
               </form>
 
               <p class="text-center">
                 <span>Already have an account?</span>
-                <a href="auth-login-basic.html">
+                <a href="{% url 'my_app:login' %}">
                   <span>Sign in instead</span>
                 </a>
               </p>
@@ -285,7 +293,12 @@
     </div>
 
     <!-- / Content -->
+    <script>
+     
+        var url = window.location;
+        console.log("The Url is: " + url)
 
+    </script>
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="{% static 'assets/vendor/libs/jquery/jquery.js'%}"></script>
