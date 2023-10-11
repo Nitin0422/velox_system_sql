@@ -37,6 +37,7 @@ class Customer(models.Model):
 
 class TaskCategory(models.Model):
     task_category_name = models.CharField(max_length=200)
+    department = models.ForeignKey(Department, on_delete= models.DO_NOTHING, null=True)
 
     def __str__(self):
         return self.task_category_name
