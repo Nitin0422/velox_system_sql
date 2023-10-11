@@ -15,6 +15,7 @@ def is_hr(user):
 def is_finance(user):
     return user.groups.filter(name='Finance-Admin').exists()
 
+@login_required(login_url='/')
 def home(request):
     return render(request, 'temps/home.html', {})
 
@@ -50,9 +51,11 @@ def logout_request(request):
     logout(request)
     return redirect('my_app:login')
 
+@login_required(login_url='/')
 def view_data(request):
     return render(request, 'temps/view_data.html', {})
 
+@login_required(login_url='/')
 def add_data(request):
     return render(request, 'temps/add_data.html', {})
 
