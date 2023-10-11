@@ -1,0 +1,23 @@
+# .gitignore
+# Ignore system files
+*.log
+*.pot
+*.pyc
+__pycache__
+*.pyo
+*.mo 
+*.so 
+
+# Ignore Django files
+*.log 
+*.pot 
+*.pyc 
+__pycache__ 
+local_settings.py
+
+# Ignore SQLite database files
+*.sqlite3
+db.sqlite3
+
+# Ignore virtual environment directory
+sqlenv/

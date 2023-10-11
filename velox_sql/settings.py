@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'base_template.urls'
+ROOT_URLCONF = 'velox_sql.urls'
 
 TEMPLATES = [
     {
@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'base_template.wsgi.application'
+WSGI_APPLICATION = 'velox_sql.wsgi.application'
 
 
 # Database
