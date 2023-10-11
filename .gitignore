@@ -1,4 +1,3 @@
-# .gitignore
 # Ignore system files
 *.log
 *.pot
@@ -9,10 +8,6 @@ __pycache__
 *.so 
 
 # Ignore Django files
-*.log 
-*.pot 
-*.pyc 
-__pycache__ 
 local_settings.py
 
 # Ignore SQLite database files
