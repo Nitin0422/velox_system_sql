@@ -60,3 +60,42 @@ def add_data(request):
     return render(request, 'temps/add_data.html', {})
 
 
+@login_required(login_url='/')
+def department_view(request):
+    return render(request, 'temps/department_view.html', {})
+
+@login_required(login_url='/')
+def task_category_view(request):
+    return render(request, 'temps/task_category_view.html', {})
+
+@login_required(login_url='/')
+def department_groups_view(request):
+    return render(request, 'temps/department_groups_view.html', {})
+
+@login_required(login_url='/')
+def employees_view(request):
+    return render(request, 'temps/employees_view.html', {})
+
+@login_required(login_url='/')
+def customers_view(request):
+    return render(request, 'temps/customers_view.html', {})
+
+@login_required(login_url='/')
+def tasks_view(request):
+    return render(request, 'temps/tasks_view.html', {})
+
+@login_required(login_url='/')
+def invoice_add(request):
+    return render(request, 'temps/invoice_add.html', {})
+
+@login_required(login_url='/')
+def invoices_view(request):
+    return render(request, 'temps/invoices_view.html', {})
+
+
+
+
+
+
+
+
