@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import login, authenticate, logout
 from .forms import RegistrationForm
 from django.contrib.auth.forms import AuthenticationForm
-
+from .models import *
+from django.shortcuts import get_list_or_404
 
 
 
@@ -62,27 +63,57 @@ def add_data(request):
 
 @login_required(login_url='/')
 def department_view(request):
-    return render(request, 'temps/department_view.html', {})
+    department_instances = []
+    try:
+        department_instances = get_list_or_404(Department)
+    except:
+        pass
+    return render(request, 'temps/department_view.html', {"department_instances" : department_instances})
 
 @login_required(login_url='/')
 def task_category_view(request):
-    return render(request, 'temps/task_category_view.html', {})
+    task_category_instances = []
+    try:
+        task_category_instances = get_list_or_404(TaskCategory)
+    except:
+        pass
+    return render(request, 'temps/task_category_view.html', {"task_category_instances" : task_category_instances})
 
 @login_required(login_url='/')
 def department_groups_view(request):
-    return render(request, 'temps/department_groups_view.html', {})
+    department_groups_instances = []
+    try:
+        department_groups_instances = get_list_or_404(DepartmentGroup)
+    except:
+        pass
+    return render(request, 'temps/department_groups_view.html', {"department_groups_instances": department_groups_instances})
 
 @login_required(login_url='/')
 def employees_view(request):
-    return render(request, 'temps/employees_view.html', {})
+    employee_instances = []
+    try:
+        employee_instances = get_list_or_404(Employee)
+    except:
+        pass
+    return render(request, 'temps/employees_view.html', {"employee_instances": employee_instances})
 
 @login_required(login_url='/')
 def customers_view(request):
-    return render(request, 'temps/customers_view.html', {})
+    customer_instances = []
+    try:
+        customer_instances = get_list_or_404(Customer)
+    except:
+        pass
+    return render(request, 'temps/customers_view.html', {"customer_instances": customer_instances})
 
 @login_required(login_url='/')
 def tasks_view(request):
-    return render(request, 'temps/tasks_view.html', {})
+    tasks_instances = []
+    try:
+        tasks_instances = get_list_or_404(TaskCode)
+    except:
+        pass
+    return render(request, 'temps/tasks_view.html', {"tasks_instances": tasks_instances})
 
 @login_required(login_url='/')
 def invoice_add(request):
@@ -90,7 +121,12 @@ def invoice_add(request):
 
 @login_required(login_url='/')
 def invoices_view(request):
-    return render(request, 'temps/invoices_view.html', {})
+    invoice_instances = []
+    try:
+        invoice_instances = get_list_or_404(Invoice)
+    except:
+        pass
+    return render(request, 'temps/invoices_view.html', {"invoice_instances": invoice_instances})
 
 
 

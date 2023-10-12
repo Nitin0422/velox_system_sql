@@ -1,4 +1,6 @@
 from django.db import models
+import os
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Department(models.Model):
@@ -48,12 +50,18 @@ class TaskCode(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
     task_date = models.DateField()
 
+def validate_file_extension(value):
+    ext = os.path.splitext(value.name)[1]  # extracts the extension of file 
+    valid_extensions = ['.pdf', '.jpg', '.png', '.jpeg']
+    if not ext.lower() in valid_extensions:
+        raise ValidationError('Unsupported file extension.')
+
 class Invoice(models.Model):
     task_code = models.ForeignKey(TaskCode, on_delete=models.DO_NOTHING)
     deal_amount = models.FloatField()
     paid_amount = models.FloatField()
     due_amount = models.FloatField()
-    bill_file = models.FileField()
+    bill_file = models.FileField(upload_to='bills/', validators=[validate_file_extension])
     invoice_date = models.DateField()
 
 

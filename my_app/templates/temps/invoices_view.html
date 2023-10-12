@@ -1,1 +1,47 @@
 {% extends "base.html" %}
+{% block content%}
+    <div>
+        <div class="card">
+            <div class="d-flex justify-content-between mb-2">
+                <h5 class="card-header"><strong>Invoices</strong></h5>
+                <button type="button" class="btn btn-icon btn-secondary m-3 mx-4">
+                    <span class="tf-icons bx bx-plus"></span>
+                  </button>
+                <!-- <button type="button" class="btn btn-secondary m-3 mx-4">
+                    <span class="tf-icons bx bx-plus"></span>&nbsp; Add Department
+                </button> -->
+            </div>
+            
+            <div class="table-responsive text-nowrap">
+            <table class="table">
+                <thead>
+                <tr class="text-center">
+                    <th> Invoice ID</th>
+                    <th> Task Code</th>
+                    <th> Deal Amount</th>
+                    <th> Paid Amount </th>
+                    <th> Due Amount </th>
+                    <th> Bill File </th>
+                    <th> Invoice Date </th>
+                    
+                </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                {% for invoice_instance in invoice_instances%}
+                <tr class="table-default text-center">
+                    <td>{{invoice_instance.id}}</td>
+                    <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong>{{invoice_instance.task_code}}</strong></td>
+                    <td>{{invoice_instance.deal_amount}}</td>
+                    <td>{{invoice_instance.paid_amount}}</td>
+                    <td>{{invoice_instance.deal_amount}}</td>
+                    <td>{{invoice_instance.bill_file}}</td>
+                    <td>{{invoice_instance.invoice_date}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+      <!--/ Contextual Classes -->
+    </div>
+{% endblock%}
