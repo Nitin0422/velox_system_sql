@@ -50,6 +50,9 @@ class TaskCode(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
     task_date = models.DateField()
 
+    def __str__(self):
+        return str(self.id)
+
 def validate_file_extension(value):
     ext = os.path.splitext(value.name)[1]  # extracts the extension of file 
     valid_extensions = ['.pdf', '.jpg', '.png', '.jpeg']
@@ -64,5 +67,6 @@ class Invoice(models.Model):
     bill_file = models.FileField(upload_to='bills/', validators=[validate_file_extension])
     invoice_date = models.DateField()
 
-
+    def __str__(self):
+        return self.id
 

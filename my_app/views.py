@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import login, authenticate, logout
-from .forms import RegistrationForm
+from .forms import RegistrationForm, InvoiceForm
 from django.contrib.auth.forms import AuthenticationForm
 from .models import *
 from django.shortcuts import get_list_or_404
@@ -117,7 +117,22 @@ def tasks_view(request):
 
 @login_required(login_url='/')
 def invoice_add(request):
-    return render(request, 'temps/invoice_add.html', {})
+    if request.method == 'POST':
+        print("POST method is OK")
+        form = InvoiceForm(request.POST, request.FILES)  # Populate the form with POST data
+        print("The form is being made ?")
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:invoices_view')
+            print("The form is valid")
+            # Form is valid, print the data collected from the frontend
+            for key, value in form.cleaned_data.items():
+                print(f'{key}: {value}')
+        else:
+            print("The form is not valid:  ")
+            print(form.errors)
+    form = InvoiceForm()
+    return render(request, 'temps/invoice_form.html', {"form": form})
 
 @login_required(login_url='/')
 def invoices_view(request):
