@@ -133,12 +133,12 @@
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Manage Office</span>
             </li>
-            
+
             <!-- Item 1-->
             <li class="menu-item">
               <a href="{% url 'my_app:department_view'%}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-business"></i>
-                
+
                 <div data-i18n="Layouts">Departments</div>
               </a>
             </li>
@@ -150,14 +150,17 @@
               </a>
             </li>
             {% endif %}
-             <!-- Departments Section -->
-             <li class="menu-header small text-uppercase">
+            <!-- Departments Section -->
+            <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Manage Department</span>
             </li>
 
             <!-- Item 1-->
             <li class="menu-item">
-              <a href="{% url 'my_app:department_groups_view'%}" class="menu-link">
+              <a
+                href="{% url 'my_app:department_groups_view'%}"
+                class="menu-link"
+              >
                 <i class="menu-icon tf-icons bx bx-shape-polygon"></i>
                 <div data-i18n="Layouts">Groups</div>
               </a>
@@ -192,7 +195,6 @@
               </a>
             </li>
 
-
             <!-- Invoices Section -->
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Manage Invoices</span>
@@ -201,18 +203,17 @@
             <!-- Item 2-->
             <li class="menu-item">
               <a href="{% url 'my_app:invoice_add'%}" class="menu-link">
-                <i class='menu-icon tf-icon bx bx-plus' ></i>
-                <div data-i18n="Layouts"> Add Invoices </div>
+                <i class="menu-icon tf-icon bx bx-plus"></i>
+                <div data-i18n="Layouts">Add Invoices</div>
               </a>
             </li>
 
             <li class="menu-item">
               <a href="{% url 'my_app:invoices_view'%}" class="menu-link">
-                <i class='menu-icon tf-icon bx bx-receipt' ></i>
-                <div data-i18n="Layouts"> View Invoices </div>
+                <i class="menu-icon tf-icon bx bx-receipt"></i>
+                <div data-i18n="Layouts">View Invoices</div>
               </a>
             </li>
-            
           </ul>
         </aside>
         <!-- / Menu -->
@@ -279,7 +280,7 @@
                           <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-online">
                               <img
-                                src="../assets/img/avatars/1.png"
+                                src="https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small/profile-icon-design-free-vector.jpg"
                                 alt
                                 class="w-px-40 h-auto rounded-circle"
                               />
@@ -307,7 +308,7 @@
                         <span class="align-middle">Settings</span>
                       </a>
                     </li>
-                    
+
                     <li>
                       <div class="dropdown-divider"></div>
                     </li>
@@ -332,8 +333,6 @@
             <div class="mx-4 my-4">{% block content %}{% endblock %}</div>
 
             <!-- / Content -->
-
-
             <div class="content-backdrop fade"></div>
           </div>
           <!-- Content wrapper -->
@@ -349,7 +348,7 @@
     <script>
       // Get the current URL and display it
       var currentUrl = window.location.pathname;
-  
+
       // Select all the anchor elements with href attributes
       var menuLinks = document.querySelectorAll(".menu-link");
 
@@ -373,14 +372,12 @@
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    
 
     <!-- Main JS -->
     <script src="{% static 'assets/js/main.js'%}"></script>
 
     <!-- Page JS -->
     <script src="{% static 'assets/js/dashboards-analytics.js'%}"></script>
-    
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
