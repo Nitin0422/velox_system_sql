@@ -149,6 +149,15 @@
                 <div data-i18n="Layouts">Task Categories</div>
               </a>
             </li>
+
+            <!-- Item 1-->
+            <li class="menu-item">
+              <a href="{% url 'my_app:tasks_view'%}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-clipboard"></i>
+                <div data-i18n="Layouts">Task Code</div>
+              </a>
+            </li>
+
             {% endif %}
             <!-- Departments Section -->
             <li class="menu-header small text-uppercase">
@@ -174,27 +183,6 @@
               </a>
             </li>
 
-            <!-- Tasks Section -->
-            <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">Manage Tasks</span>
-            </li>
-
-            <!-- Item 1-->
-            <li class="menu-item">
-              <a href="{% url 'my_app:customers_view'%}" class="menu-link">
-                <i class="menu-icon tf-icons bx bxs-user-detail"></i>
-                <div data-i18n="Layouts">Customers</div>
-              </a>
-            </li>
-
-            <!-- Item 1-->
-            <li class="menu-item">
-              <a href="{% url 'my_app:tasks_view'%}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-clipboard"></i>
-                <div data-i18n="Layouts">Tasks</div>
-              </a>
-            </li>
-
             <!-- Invoices Section -->
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Manage Invoices</span>
@@ -212,6 +200,14 @@
               <a href="{% url 'my_app:invoices_view'%}" class="menu-link">
                 <i class="menu-icon tf-icon bx bx-receipt"></i>
                 <div data-i18n="Layouts">View Invoices</div>
+              </a>
+            </li>
+
+            <!-- Item 1-->
+            <li class="menu-item">
+              <a href="{% url 'my_app:customers_view'%}" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-user-detail"></i>
+                <div data-i18n="Layouts">Customers</div>
               </a>
             </li>
           </ul>
@@ -238,11 +234,11 @@
             </div>
 
             <div
-              class="navbar-nav-right d-flex align-items-center"
+              class="navbar-nav-right d-flex align-items-center "
               id="navbar-collapse"
             >
               <!-- Search -->
-              <div class="navbar-nav align-items-center">
+              <!-- <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
                   <i class="bx bx-search fs-4 lh-0"></i>
                   <input
@@ -252,7 +248,7 @@
                     aria-label="Search..."
                   />
                 </div>
-              </div>
+              </div> -->
               <!-- /Search -->
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
