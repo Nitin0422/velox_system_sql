@@ -39,16 +39,13 @@ class Customer(models.Model):
 
 class TaskCategory(models.Model):
     task_category_name = models.CharField(max_length=200)
-    department = models.ForeignKey(Department, on_delete= models.DO_NOTHING, null=True)
 
     def __str__(self):
         return self.task_category_name
 
 class TaskCode(models.Model):
     task_category = models.ForeignKey(TaskCategory, on_delete=models.DO_NOTHING)
-    employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
-    customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
-    task_date = models.DateField()
+    task_code_name = models.CharField(max_length=200)
 
     def __str__(self):
         return str(self.id)
@@ -60,6 +57,8 @@ def validate_file_extension(value):
         raise ValidationError('Unsupported file extension.')
 
 class Invoice(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
+    employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
     task_code = models.ForeignKey(TaskCode, on_delete=models.DO_NOTHING)
     deal_amount = models.FloatField()
     paid_amount = models.FloatField()
