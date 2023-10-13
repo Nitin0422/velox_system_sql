@@ -47,6 +47,9 @@ def register(request):
             user = form.save()
             login(request, user)
             return redirect('my_app:home')
+        else:
+            print(form.error_messages)
+            return render(request, 'temps/register.html', {"form": form})
     form = RegistrationForm()
     return render(request, 'temps/register.html', {'form' : form})
 
