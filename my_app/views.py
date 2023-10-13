@@ -35,6 +35,8 @@ def login_request(request):
                 login(request, user)
                 print("Logged in hai")
                 return redirect('my_app:home')
+        else:
+            return render(request, 'temps/login.html', {"form": form})
     form = AuthenticationForm()
     return render(request, 'temps/login.html', {"form" : form})
 
