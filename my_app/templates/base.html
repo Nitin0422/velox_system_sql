@@ -101,9 +101,9 @@
         >
           <div class="app-brand demo">
             <a href="{% url 'my_app:home'%}" class="app-brand-link">
-              <span class="app-brand-logo demo">
+              <!-- <span class="app-brand-logo demo">
                 <i class="bx bx-code-alt"></i>
-              </span>
+              </span> -->
               <span class="app-brand-text demo menu-text fw-bolder ms-2"
                 >Velox Labs</span
               >
@@ -128,22 +128,90 @@
               </a>
             </li>
 
+            {% if is_admin %}
+            <!-- Departments Section -->
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Manage Office</span>
+            </li>
+            
             <!-- Item 1-->
             <li class="menu-item">
-              <a href="{% url 'my_app:item1'%}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-layout"></i>
-                <div data-i18n="Layouts">Add Invoice</div>
+              <a href="{% url 'my_app:department_view'%}" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-business"></i>
+                
+                <div data-i18n="Layouts">Departments</div>
+              </a>
+            </li>
+            <!-- Item 1-->
+            <li class="menu-item">
+              <a href="{% url 'my_app:task_category_view'%}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-category"></i>
+                <div data-i18n="Layouts">Task Categories</div>
+              </a>
+            </li>
+            {% endif %}
+             <!-- Departments Section -->
+             <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Manage Department</span>
+            </li>
+
+            <!-- Item 1-->
+            <li class="menu-item">
+              <a href="{% url 'my_app:department_groups_view'%}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-shape-polygon"></i>
+                <div data-i18n="Layouts">Groups</div>
               </a>
             </li>
 
             <!-- Item 2-->
             <li class="menu-item">
-              <a href="{% url 'my_app:item2'%}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-layout"></i>
-                <div data-i18n="Layouts"></div>
+              <a href="{% url 'my_app:employees_view'%}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-group"></i>
+                <div data-i18n="Layouts">Employees</div>
               </a>
             </li>
 
+            <!-- Tasks Section -->
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Manage Tasks</span>
+            </li>
+
+            <!-- Item 1-->
+            <li class="menu-item">
+              <a href="{% url 'my_app:customers_view'%}" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-user-detail"></i>
+                <div data-i18n="Layouts">Customers</div>
+              </a>
+            </li>
+
+            <!-- Item 1-->
+            <li class="menu-item">
+              <a href="{% url 'my_app:tasks_view'%}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-clipboard"></i>
+                <div data-i18n="Layouts">Tasks</div>
+              </a>
+            </li>
+
+
+            <!-- Invoices Section -->
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Manage Invoices</span>
+            </li>
+
+            <!-- Item 2-->
+            <li class="menu-item">
+              <a href="{% url 'my_app:invoice_add'%}" class="menu-link">
+                <i class='menu-icon tf-icon bx bx-plus' ></i>
+                <div data-i18n="Layouts"> Add Invoices </div>
+              </a>
+            </li>
+
+            <li class="menu-item">
+              <a href="{% url 'my_app:invoices_view'%}" class="menu-link">
+                <i class='menu-icon tf-icon bx bx-receipt' ></i>
+                <div data-i18n="Layouts"> View Invoices </div>
+              </a>
+            </li>
             
           </ul>
         </aside>
@@ -317,8 +385,7 @@
     <script>
       // Get the current URL and display it
       var currentUrl = window.location.pathname;
-      console.log("The current Url is: " + currentUrl);
-
+  
       // Select all the anchor elements with href attributes
       var menuLinks = document.querySelectorAll(".menu-link");
 
@@ -342,13 +409,14 @@
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    <script src="{% static 'assets/vendor/libs/apex-charts/apexcharts.js'%}"></script>
+    
 
     <!-- Main JS -->
     <script src="{% static 'assets/js/main.js'%}"></script>
 
     <!-- Page JS -->
     <script src="{% static 'assets/js/dashboards-analytics.js'%}"></script>
+    
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>

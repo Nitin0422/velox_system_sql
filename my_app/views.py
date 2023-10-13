@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import login, authenticate, logout
-from .forms import RegistrationForm
+from .forms import RegistrationForm, InvoiceForm
 from django.contrib.auth.forms import AuthenticationForm
-
+from .models import *
+from django.shortcuts import get_list_or_404
 
 
 
@@ -15,6 +16,7 @@ def is_hr(user):
 def is_finance(user):
     return user.groups.filter(name='Finance-Admin').exists()
 
+@login_required(login_url='/')
 def home(request):
     return render(request, 'temps/home.html', {})
 
@@ -50,110 +52,101 @@ def logout_request(request):
     logout(request)
     return redirect('my_app:login')
 
-def item1(request):
-    return render(request, 'temps/item1.html', {})
+@login_required(login_url='/')
+def view_data(request):
+    return render(request, 'temps/view_data.html', {})
 
-def item2(request):
-    return render(request, 'temps/item2.html', {})
+@login_required(login_url='/')
+def add_data(request):
+    return render(request, 'temps/add_data.html', {})
 
-def mega_section_1_item11(request):
-    return render(request, 'temps/mega-section-1/item11.html', {})
 
-def mega_section_1_item12(request):
-    return render(request, 'temps/mega-section-1/item12.html', {})
+@login_required(login_url='/')
+def department_view(request):
+    department_instances = []
+    try:
+        department_instances = get_list_or_404(Department)
+    except:
+        pass
+    return render(request, 'temps/department_view.html', {"department_instances" : department_instances})
 
-def mega_section_1_item13(request):
-    return render(request, 'temps/mega-section-1/item11.html', {})
+@login_required(login_url='/')
+def task_category_view(request):
+    task_category_instances = []
+    try:
+        task_category_instances = get_list_or_404(TaskCategory)
+    except:
+        pass
+    return render(request, 'temps/task_category_view.html', {"task_category_instances" : task_category_instances})
 
-def mega_section_1_item21(request):
-    return render(request, 'temps/mega-section-1/item21.html', {})
+@login_required(login_url='/')
+def department_groups_view(request):
+    department_groups_instances = []
+    try:
+        department_groups_instances = get_list_or_404(DepartmentGroup)
+    except:
+        pass
+    return render(request, 'temps/department_groups_view.html', {"department_groups_instances": department_groups_instances})
 
-def mega_section_1_item22(request):
-    return render(request, 'temps/mega-section-1/item22.html', {})
+@login_required(login_url='/')
+def employees_view(request):
+    employee_instances = []
+    try:
+        employee_instances = get_list_or_404(Employee)
+    except:
+        pass
+    return render(request, 'temps/employees_view.html', {"employee_instances": employee_instances})
 
-def mega_section_1_item23(request):
-    return render(request, 'temps/mega-section-1/item21.html', {})
+@login_required(login_url='/')
+def customers_view(request):
+    customer_instances = []
+    try:
+        customer_instances = get_list_or_404(Customer)
+    except:
+        pass
+    return render(request, 'temps/customers_view.html', {"customer_instances": customer_instances})
 
-def mega_section_1_item31(request):
-    return render(request, 'temps/mega-section-1/item31.html', {})
+@login_required(login_url='/')
+def tasks_view(request):
+    tasks_instances = []
+    try:
+        tasks_instances = get_list_or_404(TaskCode)
+    except:
+        pass
+    return render(request, 'temps/tasks_view.html', {"tasks_instances": tasks_instances})
 
-def mega_section_1_item32(request):
-    return render(request, 'temps/mega-section-1/item32.html', {})
+@login_required(login_url='/')
+def invoice_add(request):
+    if request.method == 'POST':
+        print("POST method is OK")
+        form = InvoiceForm(request.POST, request.FILES)  # Populate the form with POST data
+        print("The form is being made ?")
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:invoices_view')
+            print("The form is valid")
+            # Form is valid, print the data collected from the frontend
+            for key, value in form.cleaned_data.items():
+                print(f'{key}: {value}')
+        else:
+            print("The form is not valid:  ")
+            print(form.errors)
+    form = InvoiceForm()
+    return render(request, 'temps/invoice_form.html', {"form": form})
 
-def mega_section_1_item33(request):
-    return render(request, 'temps/mega-section-1/item31.html', {})
+@login_required(login_url='/')
+def invoices_view(request):
+    invoice_instances = []
+    try:
+        invoice_instances = get_list_or_404(Invoice)
+    except:
+        pass
+    return render(request, 'temps/invoices_view.html', {"invoice_instances": invoice_instances})
 
-@login_required(login_url='/login/')
-@user_passes_test(is_hr, login_url= '/')
-def mega_section_2_item11(request):
-    return render(request, 'temps/mega-section-2/item11.html', {})
 
-@login_required(login_url='/login/')
-@user_passes_test(is_hr, login_url= '/')
-def mega_section_2_item12(request):
-    return render(request, 'temps/mega-section-2/item12.html', {})
 
-@login_required(login_url='/login/')
-@user_passes_test(is_hr, login_url= '/')
-def mega_section_2_item13(request):
-    return render(request, 'temps/mega-section-2/item11.html', {})
 
-@login_required(login_url='/login/')
-@user_passes_test(is_hr, login_url= '/')
-def mega_section_2_item21(request):
-    return render(request, 'temps/mega-section-2/item21.html', {})
 
-@login_required(login_url='/login/')
-@user_passes_test(is_hr, login_url= '/')
-def mega_section_2_item22(request):
-    return render(request, 'temps/mega-section-2/item22.html', {})
 
-@login_required(login_url='/login/')
-@user_passes_test(is_hr, login_url= '/')
-def mega_section_2_item23(request):
-    return render(request, 'temps/mega-section-2/item21.html', {})
-
-@login_required(login_url='/login/')
-@user_passes_test(is_hr, login_url= '/')
-def mega_section_2_item31(request):
-    return render(request, 'temps/mega-section-2/item31.html', {})
-
-@login_required(login_url='/login/')
-@user_passes_test(is_hr, login_url= '/')
-def mega_section_2_item32(request):
-    return render(request, 'temps/mega-section-2/item32.html', {})
-
-@login_required(login_url='/login/')
-@user_passes_test(is_hr, login_url= '/')
-def mega_section_2_item33(request):
-    return render(request, 'temps/mega-section-2/item31.html', {})
-
-@user_passes_test(is_finance, login_url= '/')
-def mega_section_3_item11(request):
-    return render(request, 'temps/mega-section-3/item11.html', {})
-@user_passes_test(is_finance, login_url= '/')
-def mega_section_3_item12(request):
-    return render(request, 'temps/mega-section-3/item12.html', {})
-@user_passes_test(is_finance, login_url= '/')
-def mega_section_3_item13(request):
-    return render(request, 'temps/mega-section-3/item11.html', {})
-@user_passes_test(is_finance, login_url= '/')
-def mega_section_3_item21(request):
-    return render(request, 'temps/mega-section-3/item21.html', {})
-@user_passes_test(is_finance, login_url= '/')
-def mega_section_3_item22(request):
-    return render(request, 'temps/mega-section-3/item22.html', {})
-@user_passes_test(is_finance, login_url= '/')
-def mega_section_3_item23(request):
-    return render(request, 'temps/mega-section-3/item21.html', {})
-@user_passes_test(is_finance, login_url= '/')
-def mega_section_3_item31(request):
-    return render(request, 'temps/mega-section-3/item31.html', {})
-@user_passes_test(is_finance, login_url= '/')
-def mega_section_3_item32(request):
-    return render(request, 'temps/mega-section-3/item32.html', {})
-@user_passes_test(is_finance, login_url= '/')
-def mega_section_3_item33(request):
-    return render(request, 'temps/mega-section-3/item31.html', {})
 
 
