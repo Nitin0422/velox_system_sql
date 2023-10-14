@@ -2,6 +2,8 @@ from django.db import models
 import os
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractUser, Group, Permission
+
+
 # Create your models here.
 class Department(models.Model):
     department_name = models.CharField(max_length=200)
@@ -18,9 +20,6 @@ class DepartmentGroup(models.Model):
         return self.group_name
 
 class Employee(AbstractUser): #inherits all the fields present in the default user. 
-    address = models.CharField(max_length=50)
-    phone_number = models.CharField(max_length=20)
-    PAN = models.CharField(max_length=200)
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = []
 
@@ -32,6 +31,9 @@ class Employee(AbstractUser): #inherits all the fields present in the default us
 
 class EmployeeAssociation(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    address = models.CharField(max_length=50, null=True)
+    phone_number = models.CharField(max_length=20, null=True)
+    PAN = models.CharField(max_length=200, null=True)
     department = models.ForeignKey(Department, on_delete=models.DO_NOTHING)
     group = models.ForeignKey(DepartmentGroup, on_delete=models.DO_NOTHING)
 

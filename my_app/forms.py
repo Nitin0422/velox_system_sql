@@ -6,7 +6,7 @@ from .models import Invoice, Employee
 class RegistrationForm(UserCreationForm):
     class Meta:
         model = Employee
-        fields = ('first_name', 'last_name', 'phone_number', 'address', 'PAN', 'email', 'username', 'password1', 'password2')
+        fields = ('username', 'password1', 'password2')
   
 class InvoiceForm(forms.ModelForm):
     class Meta:
