@@ -1,11 +1,11 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Invoice, Staff
+from .models import Invoice, Employee
 
 class RegistrationForm(UserCreationForm):
     class Meta:
-        model = Staff
+        model = Employee
         fields = ('first_name', 'last_name', 'phone_number', 'address', 'PAN', 'email', 'username', 'password1', 'password2')
   
 class InvoiceForm(forms.ModelForm):

@@ -1,8 +1,7 @@
 from django.db import models
 import os
 from django.core.exceptions import ValidationError
-from django.contrib.auth.models import AbstractUser
-
+from django.contrib.auth.models import AbstractUser, Group, Permission
 # Create your models here.
 class Department(models.Model):
     department_name = models.CharField(max_length=200)
@@ -18,21 +17,24 @@ class DepartmentGroup(models.Model):
     def __str__(self):
         return self.group_name
 
-class Staff(AbstractUser): #inherits all the fields present in the default user. 
+class Employee(AbstractUser): #inherits all the fields present in the default user. 
     address = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=20)
     PAN = models.CharField(max_length=200)
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = []
 
+    groups = models.ManyToManyField(Group, related_name='employee_set')
+    user_permissions = models.ManyToManyField(Permission, related_name='employee_set')
+
     def __str__(self):
         return self.first_name + " " + self.first_name
 
-class StaffAssociation(models.Model):
-    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
+class EmployeeAssociation(models.Model):
+    staff = models.ForeignKey(Employee, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.DO_NOTHING)
     group = models.ForeignKey(DepartmentGroup, on_delete=models.DO_NOTHING)
-    
+
     def __str__(self):
         return self.staff.first_name + "-" + self.department.department_name + "-" + self.group.group_name
 
@@ -66,7 +68,7 @@ def validate_file_extension(value):
 
 class Invoice(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
-    employee = models.ForeignKey(Staff, on_delete=models.DO_NOTHING)
+    employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
     task_code = models.ForeignKey(TaskCode, on_delete=models.DO_NOTHING)
     deal_amount = models.FloatField()
     paid_amount = models.FloatField()
