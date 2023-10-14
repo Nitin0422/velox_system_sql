@@ -49,8 +49,6 @@ def register(request):
             return redirect('my_app:home')
         else:
             print(form.error_messages)
-            print("Password1:", form.password1)
-            print("Password2:", form.password2)
             return render(request, 'temps/register.html', {"form": form})
     form = RegistrationForm()
     return render(request, 'temps/register.html', {'form' : form})
@@ -62,6 +60,10 @@ def logout_request(request):
 @login_required(login_url='/')
 def view_data(request):
     return render(request, 'temps/view_data.html', {})
+
+@login_required(login_url='/')
+def view_account_information(request):
+    return render(request, 'temps/account-view.html', {})
 
 @login_required(login_url='/')
 def add_data(request):
