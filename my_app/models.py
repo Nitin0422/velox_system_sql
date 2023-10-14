@@ -28,7 +28,7 @@ class Employee(AbstractUser): #inherits all the fields present in the default us
     user_permissions = models.ManyToManyField(Permission, related_name='employee_set')
 
     def __str__(self):
-        return self.first_name + " " + self.first_name
+        return self.username
 
 class EmployeeAssociation(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
