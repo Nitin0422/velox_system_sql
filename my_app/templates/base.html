@@ -166,6 +166,7 @@
               </a>
             </li>
             {% endif %}
+            {% if is_admin or is_department_admin %}
             <!-- Departments Section -->
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Manage Department</span>
@@ -189,7 +190,7 @@
                 <div data-i18n="Layouts">Employees</div>
               </a>
             </li>
-
+            {% endif %}
             <!-- Invoices Section -->
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Manage Invoices</span>
