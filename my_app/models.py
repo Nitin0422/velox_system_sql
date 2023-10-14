@@ -31,7 +31,7 @@ class Employee(AbstractUser): #inherits all the fields present in the default us
         return self.first_name + " " + self.first_name
 
 class EmployeeAssociation(models.Model):
-    staff = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.DO_NOTHING)
     group = models.ForeignKey(DepartmentGroup, on_delete=models.DO_NOTHING)
 
