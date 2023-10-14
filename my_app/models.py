@@ -25,7 +25,7 @@ class Employee(AbstractUser): #inherits all the fields present in the default us
     REQUIRED_FIELDS = []
 
     groups = models.ManyToManyField(Group, related_name='employee_set')
-    user_permissions = models.ManyToManyField(Permission, related_name='employee_set')
+    user_permissions = models.ManyToManyField(Permission,related_name='employee_set')
 
     def __str__(self):
         return self.username
@@ -36,7 +36,7 @@ class EmployeeAssociation(models.Model):
     group = models.ForeignKey(DepartmentGroup, on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return self.staff.first_name + "-" + self.department.department_name + "-" + self.group.group_name
+        return self.employee.first_name + "-" + self.department.department_name + "-" + self.group.group_name
 
 
 class Customer(models.Model):
@@ -58,7 +58,7 @@ class TaskCode(models.Model):
     task_code_name = models.CharField(max_length=200)
 
     def __str__(self):
-        return str(self.id)
+        return self.task_code_name
 
 def validate_file_extension(value):
     ext = os.path.splitext(value.name)[1]  # extracts the extension of file 
@@ -69,6 +69,7 @@ def validate_file_extension(value):
 class Invoice(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
     employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
+    task_category = models.ForeignKey(TaskCategory, on_delete=models.DO_NOTHING, null=True)
     task_code = models.ForeignKey(TaskCode, on_delete=models.DO_NOTHING)
     deal_amount = models.FloatField()
     paid_amount = models.FloatField()
@@ -77,5 +78,5 @@ class Invoice(models.Model):
     invoice_date = models.DateField()
 
     def __str__(self):
-        return self.id
+        return self.customer.customer_full_name
 
