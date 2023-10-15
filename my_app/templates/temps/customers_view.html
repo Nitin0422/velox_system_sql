@@ -20,7 +20,7 @@
                     <th> Full Name</th>
                     <th> Contact Number </th>
                     <th> Address </th>
-                    
+                    <th> Actions </th>
                 </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -30,12 +30,28 @@
                     <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong>{{customer_instance.customer_full_name}}</strong></td>
                     <td>{{customer_instance.customer_phone_number}}</td>
                     <td>{{customer_instance.customer_address}}</td>
+                    <td>
+                        <div>
+                            <a>
+                            <button class="btn btn-icon btn-success mx-1">
+                                <span class="tf-icons bx bxs-edit"></span>
+                            </button>
+                            </a>
+                            <a>
+                            <button class="btn btn-icon btn-danger mx-1">
+                                <span class="tf-icons bx bxs-trash"></span>
+                            </button>
+                            </a>
+                        </div>
+                    </td>
                 </tr>
                 {% endfor %}
                 </tbody>
             </table>
             </div>
+
         </div>
       <!--/ Contextual Classes -->
+
     </div>
 {% endblock%}
