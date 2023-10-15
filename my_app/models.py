@@ -72,7 +72,7 @@ def validate_file_extension(value):
 
 class Invoice(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
-    employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
+    employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING, default=1)
     task_category = models.ForeignKey(TaskCategory, on_delete=models.DO_NOTHING, null=True)
     task_code = models.ForeignKey(TaskCode, on_delete=models.DO_NOTHING)
     deal_amount = models.FloatField()

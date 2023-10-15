@@ -11,10 +11,13 @@ class RegistrationForm(UserCreationForm):
 class InvoiceForm(forms.ModelForm):
     class Meta:
         model = Invoice
-        fields = ['task_code', 'deal_amount', 'paid_amount', 'due_amount', 'bill_file', 'invoice_date' ]
+        fields = ['customer', 'task_category', 'employee','task_code', 'deal_amount', 'paid_amount', 'due_amount', 'bill_file', 'invoice_date' ]
 
     def __init__(self, *args, **kwargs):
         super(InvoiceForm, self).__init__(*args, **kwargs)
         self.fields['task_code'].widget.attrs.update({'class': 'form-select'})
+        self.fields['customer'].widget.attrs.update({'class': 'form-select'})
+        self.fields['task_category'].widget.attrs.update({'class': 'form-select'})
+        self.fields['employee'].widget.attrs.update({'class':'form-select'})
     
 
