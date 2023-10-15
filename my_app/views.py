@@ -4,17 +4,20 @@ from django.contrib.auth import login, authenticate, logout
 from .forms import RegistrationForm, InvoiceForm
 from django.contrib.auth.forms import AuthenticationForm
 from .models import *
-from django.shortcuts import get_list_or_404
+from django.shortcuts import get_list_or_404, get_object_or_404
 
 
 
 
 # Create your views here.
-def is_hr(user):
-    return user.groups.filter(name='HR-Admin').exists()
+def is_admin(user):
+    return user.groups.filter(name='Admin').exists()
 
-def is_finance(user):
-    return user.groups.filter(name='Finance-Admin').exists()
+def is_department_admin(user):
+    return user.groups.filter(name='DepartmentAdmin').exists()
+
+def is_staff(user):
+    return user.groups.filter(name='Staff').exists()
 
 @login_required(login_url='/')
 def home(request):
@@ -128,18 +131,20 @@ def tasks_view(request):
 def invoice_add(request):
     if request.method == 'POST':
         print("POST method is OK")
-        form = InvoiceForm(request.POST, request.FILES)  # Populate the form with POST data
-        print("The form is being made ?")
+        form = InvoiceForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('my_app:invoices_view')
+            if is_admin(request.user):
+                form.save()
+            else:
+                form_data = form.save(commit=False)
+                form_data.employee_id = request.user.id
+                form_data.save()
             print("The form is valid")
-            # Form is valid, print the data collected from the frontend
-            for key, value in form.cleaned_data.items():
-                print(f'{key}: {value}')
+            return redirect('my_app:invoices_view')
         else:
             print("The form is not valid:  ")
             print(form.errors)
+            return render(request, "temps/invoice_form.html", {"form": form})
     form = InvoiceForm()
     return render(request, 'temps/invoice_form.html', {"form": form})
 
@@ -151,6 +156,32 @@ def invoices_view(request):
     except:
         pass
     return render(request, 'temps/invoices_view.html', {"invoice_instances": invoice_instances})
+
+@login_required(login_url='/')
+def invoices_edit(request, invoice_id):
+    try:
+        invoice_instance = get_object_or_404(Invoice, pk = invoice_id)
+        if request.method == 'POST':
+            form = InvoiceForm(request.POST, instance = invoice_instance)
+            if form.is_valid():
+                form.save()
+                return redirect('my_app:invoices_view')
+        form = InvoiceForm(instance = invoice_instance)
+        return render(request, "temps/invoice_form.html", {"form":form})
+    except:
+        return redirect('my_app:invoices_view')
+    
+@login_required(login_url='/')
+def invoices_delete(request, invoice_id):
+    table_name = "Invoices"
+    invoice_instance = get_object_or_404(Invoice, pk = invoice_id)
+    if request.method == "POST":
+        print("I am here")
+        invoice_instance.delete()
+        return redirect('my_app:invoices_view')
+    return render(request, "temps/confirm.html", {"instance" : invoice_instance, "table_name" : table_name})
+
+    
 
 
 

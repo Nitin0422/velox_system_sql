@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mt-5">
+    <form method="post">
+        {% csrf_token %}
+    <div class="container  w-100 d-flex mt-5">
+        <div class="row w-100 d-flex justify-content-center mt-5">
+            <div class="col-lg-6 col-md-12">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Delete this record? </h5>
+                        <div class="card-subtitle text-danger  mb-3">Records once deleted cannot be restored</div>
+                        <p class="card-text">
+                            Are you sure you want to delete record {{instance}} of {{table_name}} List?
+                        </p>
+                        <button type = "submit" class="btn btn-success mx-1 my-1">Confirm</button>
+                        <a href="{% url 'my_app:invoices_view' %}" class="btn btn-danger mx-1 my-1">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+
+{% endblock %}
