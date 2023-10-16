@@ -3,10 +3,12 @@
     <div>
         <div class="card">
             <div class="d-flex justify-content-between mb-2">
-                <h5 class="card-header"><strong>Tasks</strong></h5>
+                <h5 class="card-header"><strong>Task Codes</strong></h5>
+                <a href="{% url 'my_app:tasks_add' %}">
                 <button type="button" class="btn btn-icon btn-secondary m-3 mx-4">
                     <span class="tf-icons bx bx-plus"></span>
                   </button>
+                </a>
                 <!-- <button type="button" class="btn btn-secondary m-3 mx-4">
                     <span class="tf-icons bx bx-plus"></span>&nbsp; Add Department
                 </button> -->
@@ -18,10 +20,8 @@
                 <tr class="text-center">
                     <th> Task Code ID</th>
                     <th> Task Category</th>
-                    <th> Employee</th>
-                    <th> Customer </th>
-                    <th> Task Date </th>
-                    
+                    <th> Task Code Name</th>
+                    <th> Actions </th>
                 </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -29,9 +29,21 @@
                 <tr class="table-default text-center">
                     <td>{{tasks_instance.id}}</td>
                     <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong>{{tasks_instance.task_category}}</strong></td>
-                    <td>{{tasks_instance.employee}}</td>
-                    <td>{{tasks_instance.customer}}</td>
-                    <td>{{tasks_instance.task_date}}</td>
+                    <td><strong>{{tasks_instance.task_code_name}}</strong></td>
+                    <td>
+                        <div>
+                            <a href="{%url 'my_app:tasks_edit' tasks_instance.id %}">
+                            <button class="btn btn-icon btn-primary mx-1">
+                                <span class="tf-icons bx bxs-edit"></span>
+                            </button>
+                            </a>
+                            <a href="{% url 'my_app:department_delete' 1%}">
+                            <button class="btn btn-icon btn-secondary mx-1">
+                                <span class="tf-icons bx bxs-trash"></span>
+                            </button>
+                            </a>
+                        </div>
+                    </td>
                 </tr>
                 {% endfor %}
                 </tbody>

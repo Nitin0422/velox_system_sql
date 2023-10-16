@@ -131,6 +131,14 @@ def task_category_edit(request, task_category_id):
     form = TaskCategoryForm(instance= task_category_instance)
     return render(request, "temps/task/task_category_form.html", {"form" : form})
 
+def task_category_delete(request, task_category_id):
+    task_category_instance = get_object_or_404(TaskCategory, pk = task_category_id)
+    if request.method == "POST":
+        task_category_instance.delete()
+        return redirect('my_app:task_category_view')
+    table_name = "Task Category"
+    return render(request, "temps/confirm.html", {"instance" : task_category_instance, "table_name": table_name})
+
 @login_required(login_url='/')
 def department_groups_view(request):
     department_groups_instances = []
@@ -166,6 +174,29 @@ def tasks_view(request):
     except:
         pass
     return render(request, 'temps/task/tasks_view.html', {"tasks_instances": tasks_instances})
+
+def tasks_add(request):
+    if request.method == "POST":
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:tasks_view')
+        else:
+            return render(request, 'temps/task/task_form.html', {"form" : form})
+    form = TaskForm()
+    return render(request, 'temps/task/task_form.html', {"form" : form})
+
+def tasks_edit(request, task_code_id):
+    task_code_instance = get_object_or_404(TaskCode, pk = task_code_id)
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance = task_code_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:tasks_view')
+        else:
+            return render(request, "temps/task/task_form.html", {"form":form})
+    form = TaskForm(instance = task_code_instance)
+    return render(request, "temps/task/task_form.html", {"form":form})
 
 @login_required(login_url='/')
 def invoice_add(request):

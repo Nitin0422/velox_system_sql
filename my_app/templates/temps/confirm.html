@@ -18,6 +18,8 @@
                             <a href="{% url 'my_app:department_view' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
                         {% elif table_name == "Invoices"%}
                             <a href="{% url 'my_app:invoices_view' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
+                            {% elif table_name == "Task Category"%}
+                            <a href="{% url 'my_app:task_category_view' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
                         {% else %}
                             <a href="{% url 'my_app:home' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
                         {% endif %}

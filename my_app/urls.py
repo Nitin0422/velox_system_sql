@@ -18,12 +18,17 @@ urlpatterns = [
     path('task-category/', views.task_category_view, name= 'task_category_view'),
     path('task-category/add', views.task_category_add, name="task_category_add"),
     path('task-category/edit/<int:task_category_id>', views.task_category_edit, name = 'task_category_edit'),
+    path('task-category/delete/<int:task_category_id>', views.task_category_delete, name="task_category_delete"),
+
+    path('tasks/', views.tasks_view, name='tasks_view'),
+    path('tasks/add', views.tasks_add, name = "tasks_add"),
+    path('tasks/edit/<int:task_code_id>', views.tasks_edit, name="tasks_edit"),
 
     path('department/groups/', views.department_groups_view, name='department_groups_view'),
     path('department/employees/', views.employees_view, name='employees_view'),
 
     path('customers/', views.customers_view, name='customers_view'),
-    path('tasks/', views.tasks_view, name='tasks_view'),
+    
 
     path('invoice/add', views.invoice_add, name='invoice_add'),
     path('invoices/', views.invoices_view, name='invoices_view'),
