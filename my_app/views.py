@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import login, authenticate, logout
-from .forms import RegistrationForm, InvoiceForm, DepartmentForm
+from .forms import *
 from django.contrib.auth.forms import AuthenticationForm
 from .models import *
 from django.shortcuts import get_list_or_404, get_object_or_404
@@ -90,6 +90,14 @@ def department_edit(request, department_id):
     form = DepartmentForm(instance= department_instance)
     return render(request, "temps/department/department_form.html", {"form":form})
 
+def department_delete(request, department_id):
+    department_instance = get_object_or_404(Department, pk = department_id)
+    if request.method == "POST":
+        department_instance.delete()
+        return redirect('my_app:department_view')
+    table_name = "Department"
+    return render(request, "temps/confirm.html", {"instance": department_instance, "table_name" : table_name})
+
 
 @login_required(login_url='/')
 def task_category_view(request):
@@ -99,6 +107,29 @@ def task_category_view(request):
     except:
         pass
     return render(request, 'temps/task/task_category_view.html', {"task_category_instances" : task_category_instances})
+
+def task_category_add(request):
+    if request.method == "POST":
+        form = TaskCategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:task_category_view')
+        else:
+            return render(request, "temps/task/task_category_form.html", {"form":form})
+    form = TaskCategoryForm()
+    return render(request, "temps/task/task_category_form.html", {"form":form})
+
+def task_category_edit(request, task_category_id):
+    task_category_instance = get_object_or_404(TaskCategory, pk = task_category_id)
+    if request.method == "POST":
+        form = TaskCategoryForm(request.POST, instance = task_category_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:task_category_view')
+        else:
+            return render(request, "temps/task/task_category_form.html", {"form" : form})
+    form = TaskCategoryForm(instance= task_category_instance)
+    return render(request, "temps/task/task_category_form.html", {"form" : form})
 
 @login_required(login_url='/')
 def department_groups_view(request):
@@ -175,6 +206,8 @@ def invoices_edit(request, invoice_id):
             if form.is_valid():
                 form.save()
                 return redirect('my_app:invoices_view')
+            else:
+                return render(request, "temps/invoice/invoice_form.html", {"form":form})
         form = InvoiceForm(instance = invoice_instance)
         return render(request, "temps/invoice/invoice_form.html", {"form":form})
     except:

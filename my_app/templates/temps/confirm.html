@@ -13,8 +13,14 @@
                         <p class="card-text">
                             Are you sure you want to delete record {{instance}} of {{table_name}} List?
                         </p>
-                        <button type = "submit" class="btn btn-success mx-1 my-1">Confirm</button>
-                        <a href="{% url 'my_app:invoices_view' %}" class="btn btn-danger mx-1 my-1">Cancel</a>
+                        <button type = "submit" class="btn btn-secondary mx-1 my-1">Confirm</button>
+                        {% if table_name == "Department"%}
+                            <a href="{% url 'my_app:department_view' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
+                        {% elif table_name == "Invoices"%}
+                            <a href="{% url 'my_app:invoices_view' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
+                        {% else %}
+                            <a href="{% url 'my_app:home' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

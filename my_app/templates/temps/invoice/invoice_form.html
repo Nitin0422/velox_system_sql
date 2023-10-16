@@ -94,7 +94,7 @@
               class="form-control"
               id="{{form.deal_amount.id_for_label}}"
               name="{{form.deal_amount.name}}"
-              value="{{form.deal_amount.value}}"
+              {% if form.deal_amount.value %} value="{{ form.deal_amount.value }}"{% endif %}
             />
             {% for error in form.deal_amount.errors %}
             <div class="d-flex w-50 justify-content-center px-2 text-danger">{{ error }}</div>
@@ -112,7 +112,7 @@
               id="{{form.paid_amount.id_for_label}}"
               class="form-control phone-mask"
               name="{{form.paid_amount.name}}"
-              value="{{form.paid_amount.value}}"
+              {% if form.paid_amount.value %} value="{{ form.paid_amount.value }}"{% endif %}
             />
             {% for error in form.paid_amount.errors %}
             <div class="d-flex w-50 justify-content-center px-2 text-danger">{{ error }}</div>
@@ -129,7 +129,7 @@
               id="{{form.due_amount.id_for_label}}"
               class="form-control phone-mask"
               name="{{form.due_amount.name}}"
-              value="{{form.due_amount.value}}"
+              {% if form.due_amount.value %} value="{{ form.due_amount.value }}"{% endif %}
               readonly
             />
             {% for error in form.due_amount.errors %}
@@ -148,7 +148,7 @@
                 id="{{form.invoice_date.id_for_label}}"
                 class="form-control phone-mask"
                 name="{{form.invoice_date.name}}"
-                value="{{form.invoice_date.value}}"
+                {% if form.invoice_date.value %} value="{{ form.invoice_date.value }}"{% endif %}
               />
               {% for error in form.invoice_date.errors %}
             <div class="d-flex px-2 text-danger">{{ error }}</div>
@@ -169,10 +169,11 @@
         </div>
        
         <div class="row justify-content-end mt-4">
-          <div class="col-sm-10">
+          <div class="col-sm-10 d-flex justify-content-end gap-2">
+            <a class="btn btn-secondary text-white" href="{% url 'my_app:invoices_view' %}"> Back </a>
             <button type="submit" class="btn btn-primary">Add</button>
+            
           </div>
-        </div>
       </form>
     </div>
   </div>

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Invoice, Employee, Department
+from .models import Invoice, Employee, Department, TaskCategory
 
 class RegistrationForm(UserCreationForm):
     class Meta:
@@ -13,6 +13,11 @@ class DepartmentForm(forms.ModelForm):
     class Meta:
         model = Department
         fields = ('department_name', 'no_of_employees')
+
+class TaskCategoryForm(forms.ModelForm):
+    class Meta:
+        model = TaskCategory
+        fields = ['task_category_name']
   
 class InvoiceForm(forms.ModelForm):
     class Meta:

@@ -13,8 +13,11 @@ urlpatterns = [
     path('department/', views.department_view, name='department_view'),
     path('department/add/', views.department_add, name='department_add'),
     path('department/edit/<int:department_id>', views.department_edit, name="department_edit" ),
+    path('department/delete/<int:department_id>', views.department_delete, name="department_delete"),
 
     path('task-category/', views.task_category_view, name= 'task_category_view'),
+    path('task-category/add', views.task_category_add, name="task_category_add"),
+    path('task-category/edit/<int:task_category_id>', views.task_category_edit, name = 'task_category_edit'),
 
     path('department/groups/', views.department_groups_view, name='department_groups_view'),
     path('department/employees/', views.employees_view, name='employees_view'),
