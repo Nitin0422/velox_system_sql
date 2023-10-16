@@ -2,11 +2,11 @@
 <div>
   <div class="card mb-4">
     <div class="card-header d-flex align-items-center justify-content-between">
-      <h5 class="mb-0">Invoices <Form></Form></h5>
+      <h5 class="mb-0">Departments Form</h5>
       <small class="text-muted float-end"></small>
     </div>
     <div class="card-body">
-      <form method="post" enctype="multipart/form-data">
+      <form method="post">
         {% csrf_token %}
         
         
@@ -20,6 +20,7 @@
               class="form-control"
               id="{{form.department_name.id_for_label}}"
               name="{{form.department_name.name}}"
+              value="{{form.department_name.value}}"
             />
             {% for error in form.department_name.errors %}
             <div class="d-flex w-50 justify-content-center px-2 text-danger">{{ error }}</div>
@@ -37,6 +38,7 @@
               id="{{form.no_of_employees.id_for_label}}"
               class="form-control phone-mask"
               name="{{form.no_of_employees.name}}"
+              value="{{form.no_of_employees.value}}"
             />
             {% for error in form.no_of_employees.errors %}
             <div class="justify-content-center p-2 text-danger">{{ error }}</div>

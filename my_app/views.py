@@ -27,16 +27,11 @@ def login_request(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data = request.POST)
         if form.is_valid():
-            print("Form is valid")
             username = form.cleaned_data.get('username')
-            print(username)
             password = form.cleaned_data.get('password')
-            print(password)
             user = authenticate(username = username, password = password)
-            print("User is: ", user)
             if user is not None:
                 login(request, user)
-                print("Logged in hai")
                 return redirect('my_app:home')
         else:
             return render(request, 'temps/login.html', {"form": form})
@@ -82,6 +77,19 @@ def department_add(request):
             return render(request, "temps/department/department_form.html", {"form": form})
     form = DepartmentForm()
     return render(request, "temps/department/department_form.html", {"form": form})
+
+def department_edit(request, department_id):
+    department_instance = get_object_or_404(Department, pk = department_id)
+    if request.method == 'POST':
+        form = DepartmentForm(request.POST, instance = department_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:department_view')
+        else:
+            return render(request, "temps/department/department_form.html", {"form":form})
+    form = DepartmentForm(instance= department_instance)
+    return render(request, "temps/department/department_form.html", {"form":form})
+
 
 @login_required(login_url='/')
 def task_category_view(request):
