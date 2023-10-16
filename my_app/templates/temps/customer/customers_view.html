@@ -4,9 +4,11 @@
         <div class="card">
             <div class="d-flex justify-content-between mb-2">
                 <h5 class="card-header"><strong>Customers</strong></h5>
+                <a href="{% url 'my_app:customers_add'%}">
                 <button type="button" class="btn btn-icon btn-secondary m-3 mx-4">
                     <span class="tf-icons bx bx-plus"></span>
                   </button>
+                </a>
                 <!-- <button type="button" class="btn btn-secondary m-3 mx-4">
                     <span class="tf-icons bx bx-plus"></span>&nbsp; Add Department
                 </button> -->
@@ -32,13 +34,13 @@
                     <td>{{customer_instance.customer_address}}</td>
                     <td>
                         <div>
-                            <a>
-                            <button class="btn btn-icon btn-success mx-1">
+                            <a href="{% url 'my_app:customers_edit' customer_instance.id %}">
+                            <button class="btn btn-icon btn-primary mx-1">
                                 <span class="tf-icons bx bxs-edit"></span>
                             </button>
                             </a>
                             <a>
-                            <button class="btn btn-icon btn-danger mx-1">
+                            <button class="btn btn-icon btn-secondary mx-1">
                                 <span class="tf-icons bx bxs-trash"></span>
                             </button>
                             </a>

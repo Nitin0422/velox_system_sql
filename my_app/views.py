@@ -166,6 +166,29 @@ def customers_view(request):
         pass
     return render(request, 'temps/customer/customers_view.html', {"customer_instances": customer_instances})
 
+def customer_add(request):
+    if request.method == "POST":
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:customers_view')
+        else:
+            return render(request, 'temps/customer/customer_form.html', {"form":form})
+    form = CustomerForm()
+    return render(request, 'temps/customer/customer_form.html', {"form":form})
+
+def customer_edit(request, customer_id):
+    customer_instance = get_object_or_404(Customer, pk = customer_id)
+    if request.method == "POST":
+        form = CustomerForm(request.POST, instance= customer_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:customers_view')
+        else:
+            return render(request, 'temps/customer/customer_form.html', {"form":form})
+    form = CustomerForm(instance = customer_instance)
+    return render(request, 'temps/customer/customer_form.html', {"form":form})
+
 @login_required(login_url='/')
 def tasks_view(request):
     tasks_instances = []
@@ -197,6 +220,11 @@ def tasks_edit(request, task_code_id):
             return render(request, "temps/task/task_form.html", {"form":form})
     form = TaskForm(instance = task_code_instance)
     return render(request, "temps/task/task_form.html", {"form":form})
+
+def tasks_delete(request, task_code_id):
+    task_code_instance = get_object_or_404(TaskCode, pk = task_code_id)
+    table_name = 'Task Code'
+    return render(request, 'temps/confirm.html', {"instance": task_code_instance, "table_name": table_name})
 
 @login_required(login_url='/')
 def invoice_add(request):

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Invoice, Employee, Department, TaskCategory, TaskCode
+from .models import Invoice, Employee, Department, TaskCategory, TaskCode, Customer
 
 class RegistrationForm(UserCreationForm):
     class Meta:
@@ -27,6 +27,11 @@ class TaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
         self.fields['task_category'].widget.attrs.update({'class':'form-select'})
+
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['customer_full_name', 'customer_phone_number', 'customer_address']
   
 class InvoiceForm(forms.ModelForm):
     class Meta:

@@ -23,11 +23,14 @@ urlpatterns = [
     path('tasks/', views.tasks_view, name='tasks_view'),
     path('tasks/add', views.tasks_add, name = "tasks_add"),
     path('tasks/edit/<int:task_code_id>', views.tasks_edit, name="tasks_edit"),
+    path('tasks/delete/<int:task_code_id>', views.tasks_delete, name="tasks_delete"),
 
     path('department/groups/', views.department_groups_view, name='department_groups_view'),
     path('department/employees/', views.employees_view, name='employees_view'),
 
     path('customers/', views.customers_view, name='customers_view'),
+    path('customer/add/', views.customer_add, name='customers_add'),
+    path('customer/edit/<int:customer_id>', views.customer_edit, name='customers_edit'),
     
 
     path('invoice/add', views.invoice_add, name='invoice_add'),
