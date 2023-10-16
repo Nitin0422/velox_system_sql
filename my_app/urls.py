@@ -11,6 +11,8 @@ urlpatterns = [
     path('logout/', views.logout_request, name='logout'),
 
     path('department/', views.department_view, name='department_view'),
+    path('department/add/', views.department_add, name='department_add'),
+
     path('task-category/', views.task_category_view, name= 'task_category_view'),
 
     path('department/groups/', views.department_groups_view, name='department_groups_view'),
@@ -22,10 +24,5 @@ urlpatterns = [
     path('invoice/add', views.invoice_add, name='invoice_add'),
     path('invoices/', views.invoices_view, name='invoices_view'),
     path('invoices/edit/<int:invoice_id>', views.invoices_edit, name="invoices_edit"),
-    path('invoices/delete/<int:invoice_id>', views.invoices_delete, name="invoices_delete"),
-
-    path('view-data/', views.view_data, name='view_data'),
-    path('add-data/', views.add_data, name='add_data'),
-
-    
+    path('invoices/delete/<int:invoice_id>', views.invoices_delete, name="invoices_delete"),    
 ]

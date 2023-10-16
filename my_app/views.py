@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import login, authenticate, logout
-from .forms import RegistrationForm, InvoiceForm
+from .forms import RegistrationForm, InvoiceForm, DepartmentForm
 from django.contrib.auth.forms import AuthenticationForm
 from .models import *
 from django.shortcuts import get_list_or_404, get_object_or_404
@@ -60,18 +60,8 @@ def logout_request(request):
     logout(request)
     return redirect('my_app:login')
 
-@login_required(login_url='/')
-def view_data(request):
-    return render(request, 'temps/view_data.html', {})
-
-@login_required(login_url='/')
 def view_account_information(request):
     return render(request, 'temps/account-view.html', {})
-
-@login_required(login_url='/')
-def add_data(request):
-    return render(request, 'temps/add_data.html', {})
-
 
 @login_required(login_url='/')
 def department_view(request):
@@ -80,7 +70,18 @@ def department_view(request):
         department_instances = get_list_or_404(Department)
     except:
         pass
-    return render(request, 'temps/department_view.html', {"department_instances" : department_instances})
+    return render(request, 'temps/department/department_view.html', {"department_instances" : department_instances})
+
+def department_add(request):
+    if request.method == "POST":
+        form = DepartmentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:department_view')
+        else:
+            return render(request, "temps/department/department_form.html", {"form": form})
+    form = DepartmentForm()
+    return render(request, "temps/department/department_form.html", {"form": form})
 
 @login_required(login_url='/')
 def task_category_view(request):
@@ -89,7 +90,7 @@ def task_category_view(request):
         task_category_instances = get_list_or_404(TaskCategory)
     except:
         pass
-    return render(request, 'temps/task_category_view.html', {"task_category_instances" : task_category_instances})
+    return render(request, 'temps/task/task_category_view.html', {"task_category_instances" : task_category_instances})
 
 @login_required(login_url='/')
 def department_groups_view(request):
@@ -98,7 +99,7 @@ def department_groups_view(request):
         department_groups_instances = get_list_or_404(DepartmentGroup)
     except:
         pass
-    return render(request, 'temps/department_groups_view.html', {"department_groups_instances": department_groups_instances})
+    return render(request, 'temps/department/department_groups_view.html', {"department_groups_instances": department_groups_instances})
 
 @login_required(login_url='/')
 def employees_view(request):
@@ -107,7 +108,7 @@ def employees_view(request):
         employee_instances = get_list_or_404(Employee)
     except:
         pass
-    return render(request, 'temps/employees_view.html', {"employee_instances": employee_instances})
+    return render(request, 'temps/employee/employees_view.html', {"employee_instances": employee_instances})
 
 @login_required(login_url='/')
 def customers_view(request):
@@ -116,7 +117,7 @@ def customers_view(request):
         customer_instances = get_list_or_404(Customer)
     except:
         pass
-    return render(request, 'temps/customers_view.html', {"customer_instances": customer_instances})
+    return render(request, 'temps/customer/customers_view.html', {"customer_instances": customer_instances})
 
 @login_required(login_url='/')
 def tasks_view(request):
@@ -125,7 +126,7 @@ def tasks_view(request):
         tasks_instances = get_list_or_404(TaskCode)
     except:
         pass
-    return render(request, 'temps/tasks_view.html', {"tasks_instances": tasks_instances})
+    return render(request, 'temps/task/tasks_view.html', {"tasks_instances": tasks_instances})
 
 @login_required(login_url='/')
 def invoice_add(request):
@@ -146,7 +147,7 @@ def invoice_add(request):
             print(form.errors)
             return render(request, "temps/invoice_form.html", {"form": form})
     form = InvoiceForm()
-    return render(request, 'temps/invoice_form.html', {"form": form})
+    return render(request, 'temps/invoice/invoice_form.html', {"form": form})
 
 @login_required(login_url='/')
 def invoices_view(request):
@@ -155,7 +156,7 @@ def invoices_view(request):
         invoice_instances = get_list_or_404(Invoice)
     except:
         pass
-    return render(request, 'temps/invoices_view.html', {"invoice_instances": invoice_instances})
+    return render(request, 'temps/invoice/invoices_view.html', {"invoice_instances": invoice_instances})
 
 @login_required(login_url='/')
 def invoices_edit(request, invoice_id):
@@ -167,7 +168,7 @@ def invoices_edit(request, invoice_id):
                 form.save()
                 return redirect('my_app:invoices_view')
         form = InvoiceForm(instance = invoice_instance)
-        return render(request, "temps/invoice_form.html", {"form":form})
+        return render(request, "temps/invoice/invoice_form.html", {"form":form})
     except:
         return redirect('my_app:invoices_view')
     
