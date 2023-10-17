@@ -27,6 +27,8 @@ urlpatterns = [
 
     path('department/groups/', views.department_groups_view, name='department_groups_view'),
     path('department/groups/add', views.department_groups_add, name = "department_groups_add"),
+    path('department/groups/edit/<int:department_group_id>', views.department_groups_edit, name="department_groups_edit"),
+    path('department/groups/delete/<int:department_group_id>', views.department_groups_delete, name='department_groups_delete'),
 
     path('department/employees/', views.employees_view, name='employees_view'),
 

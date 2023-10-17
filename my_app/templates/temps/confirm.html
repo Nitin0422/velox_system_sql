@@ -22,6 +22,8 @@
                             <a href="{% url 'my_app:tasks_view' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
                         {% elif table_name == "Customer"%}
                             <a href="{% url 'my_app:customers_view' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
+                        {% elif table_name == "Department Groups"%}
+                            <a href="{% url 'my_app:department_groups_view' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
                         {% else %}
                             <a href="{% url 'my_app:home' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
                         {% endif %}

@@ -29,12 +29,12 @@
                     <td>{{department_groups_instance.department}}</td>
                     <td>
                         <div>
-                            <a href="{% url 'my_app:customers_edit' 1%}">
+                            <a href="{% url 'my_app:department_groups_edit' department_groups_instance.id%}">
                             <button class="btn btn-icon btn-primary mx-1">
                                 <span class="tf-icons bx bxs-edit"></span>
                             </button>
                             </a>
-                            <a href="{% url 'my_app:customers_delete' 1 %}">
+                            <a href="{% url 'my_app:department_groups_delete' department_groups_instance.id %}">
                             <button class="btn btn-icon btn-secondary mx-1">
                                 <span class="tf-icons bx bxs-trash"></span>
                             </button>

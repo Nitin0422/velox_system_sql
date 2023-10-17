@@ -157,6 +157,26 @@ def department_groups_add(request):
     form = DepartmentGroupForm()
     return render(request, 'temps/department/department_groups_form.html', {"form" : form}) 
 
+def department_groups_edit(request, department_group_id):
+    department_group_instance = get_object_or_404(DepartmentGroup, pk = department_group_id)
+    if request.method == 'POST':
+        form = DepartmentGroupForm(request.POST, instance = department_group_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:department_groups_view')
+        else:
+            return render(request, 'temps/department/department_groups_form.html', {"form" : form})
+    form = DepartmentGroupForm(instance = department_group_instance)
+    return render(request, 'temps/department/department_groups_form.html', {"form" : form})
+
+def department_groups_delete(request, department_group_id):
+    department_groups_instance = get_object_or_404(DepartmentGroup, pk = department_group_id)
+    if request.method == 'POST':
+        department_groups_instance.delete()
+        return redirect('my_app:department_groups_view')
+    table_name = 'Department Groups'
+    return render(request, 'temps/confirm.html', {"instance" : department_groups_instance, "table_name" : table_name})
+
 @login_required(login_url='/')
 def employees_view(request):
     employee_instances = []
