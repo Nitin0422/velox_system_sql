@@ -186,6 +186,29 @@ def employees_view(request):
         pass
     return render(request, 'temps/employee/employees_view.html', {"employee_instances": employee_instances})
 
+def employees_add(request):
+    form = EmployeeForm()
+    return render(request, 'temps/employee/employees_form.html', {"form" : form})
+
+def employees_edit(request, employee_id):
+    employee_instance = get_object_or_404(Employee, pk=employee_id)
+    if request.method == 'POST':
+        form = EmployeeForm(request.POST, instance = employee_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:employees_view')
+    form = EmployeeForm(instance= employee_instance)
+    return render(request, 'temps/employee/employees_form.html', {"form" : form})
+
+def employees_delete(request, employee_id):
+    employee_instance = get_object_or_404(Employee, pk = employee_id)
+    if request.method == 'POST':
+        employee_instance.delete()
+        return redirect('my_app:employees_view')
+    table_name = 'Employees'
+    return render(request, 'temps/confirm.html', {"instance": employee_instance, "table_name" : table_name})
+
+
 @login_required(login_url='/')
 def customers_view(request):
     customer_instances = []

@@ -41,6 +41,11 @@ class DepartmentGroupForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(DepartmentGroupForm, self).__init__(*args, **kwargs)
         self.fields['department'].widget.attrs.update({'class' : 'form-select'})
+
+class EmployeeForm(forms.ModelForm):
+    class Meta:
+        model = Employee
+        fields = ['username', 'first_name', 'last_name', 'phone_number', 'address', 'PAN', 'email']
   
 class InvoiceForm(forms.ModelForm):
     class Meta:

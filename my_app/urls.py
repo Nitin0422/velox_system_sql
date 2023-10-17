@@ -31,6 +31,9 @@ urlpatterns = [
     path('department/groups/delete/<int:department_group_id>', views.department_groups_delete, name='department_groups_delete'),
 
     path('department/employees/', views.employees_view, name='employees_view'),
+    path('department/employees/add', views.employees_add, name="employees_add"),
+    path('department/employees/edit/<int:employee_id>', views.employees_edit, name = "employees_edit"),
+    path('department/employees/delete/<int:employee_id>', views.employees_delete, name="employees_delete"),
 
     path('customers/', views.customers_view, name='customers_view'),
     path('customer/add/', views.customer_add, name='customers_add'),
