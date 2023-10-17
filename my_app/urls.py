@@ -31,7 +31,7 @@ urlpatterns = [
     path('customers/', views.customers_view, name='customers_view'),
     path('customer/add/', views.customer_add, name='customers_add'),
     path('customer/edit/<int:customer_id>', views.customer_edit, name='customers_edit'),
-    
+    path('customer/delete/<int:customer_id>', views.customer_delete, name='customers_delete'),
 
     path('invoice/add', views.invoice_add, name='invoice_add'),
     path('invoices/', views.invoices_view, name='invoices_view'),

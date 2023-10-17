@@ -189,6 +189,14 @@ def customer_edit(request, customer_id):
     form = CustomerForm(instance = customer_instance)
     return render(request, 'temps/customer/customer_form.html', {"form":form})
 
+def customer_delete(request, customer_id):
+    customer_instance = get_object_or_404(Customer, pk = customer_id)
+    if request.method == "POST":
+        customer_instance.delete()
+        return redirect('my_app:customers_view')
+    table_name = 'Customer'
+    return render(request, 'temps/confirm.html', {"instance" : customer_instance, "table_name" : table_name})
+
 @login_required(login_url='/')
 def tasks_view(request):
     tasks_instances = []
