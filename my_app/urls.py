@@ -26,6 +26,8 @@ urlpatterns = [
     path('tasks/delete/<int:task_code_id>', views.tasks_delete, name="tasks_delete"),
 
     path('department/groups/', views.department_groups_view, name='department_groups_view'),
+    path('department/groups/add', views.department_groups_add, name = "department_groups_add"),
+
     path('department/employees/', views.employees_view, name='employees_view'),
 
     path('customers/', views.customers_view, name='customers_view'),

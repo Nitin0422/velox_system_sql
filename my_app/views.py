@@ -148,6 +148,15 @@ def department_groups_view(request):
         pass
     return render(request, 'temps/department/department_groups_view.html', {"department_groups_instances": department_groups_instances})
 
+def department_groups_add(request):
+    if request.method == 'POST':
+        form = DepartmentGroupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:department_groups_view')
+    form = DepartmentGroupForm()
+    return render(request, 'temps/department/department_groups_form.html', {"form" : form}) 
+
 @login_required(login_url='/')
 def employees_view(request):
     employee_instances = []
