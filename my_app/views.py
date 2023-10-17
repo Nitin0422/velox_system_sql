@@ -1,20 +1,23 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import login, authenticate, logout
-from .forms import RegistrationForm, InvoiceForm
+from .forms import *
 from django.contrib.auth.forms import AuthenticationForm
 from .models import *
-from django.shortcuts import get_list_or_404
+from django.shortcuts import get_list_or_404, get_object_or_404
 
 
 
 
 # Create your views here.
-def is_hr(user):
-    return user.groups.filter(name='HR-Admin').exists()
+def is_admin(user):
+    return user.groups.filter(name='Admin').exists()
 
-def is_finance(user):
-    return user.groups.filter(name='Finance-Admin').exists()
+def is_department_admin(user):
+    return user.groups.filter(name='DepartmentAdmin').exists()
+
+def is_staff(user):
+    return user.groups.filter(name='Staff').exists()
 
 @login_required(login_url='/')
 def home(request):
@@ -24,17 +27,14 @@ def login_request(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data = request.POST)
         if form.is_valid():
-            print("Form is valid")
             username = form.cleaned_data.get('username')
-            print(username)
             password = form.cleaned_data.get('password')
-            print(password)
             user = authenticate(username = username, password = password)
-            print("User is: ", user)
             if user is not None:
                 login(request, user)
-                print("Logged in hai")
                 return redirect('my_app:home')
+        else:
+            return render(request, 'temps/login.html', {"form": form})
     form = AuthenticationForm()
     return render(request, 'temps/login.html', {"form" : form})
 
@@ -45,6 +45,9 @@ def register(request):
             user = form.save()
             login(request, user)
             return redirect('my_app:home')
+        else:
+            print(form.error_messages)
+            return render(request, 'temps/register.html', {"form": form})
     form = RegistrationForm()
     return render(request, 'temps/register.html', {'form' : form})
 
@@ -52,14 +55,8 @@ def logout_request(request):
     logout(request)
     return redirect('my_app:login')
 
-@login_required(login_url='/')
-def view_data(request):
-    return render(request, 'temps/view_data.html', {})
-
-@login_required(login_url='/')
-def add_data(request):
-    return render(request, 'temps/add_data.html', {})
-
+def view_account_information(request):
+    return render(request, 'temps/account-view.html', {})
 
 @login_required(login_url='/')
 def department_view(request):
@@ -68,7 +65,39 @@ def department_view(request):
         department_instances = get_list_or_404(Department)
     except:
         pass
-    return render(request, 'temps/department_view.html', {"department_instances" : department_instances})
+    return render(request, 'temps/department/department_view.html', {"department_instances" : department_instances})
+
+def department_add(request):
+    if request.method == "POST":
+        form = DepartmentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:department_view')
+        else:
+            return render(request, "temps/department/department_form.html", {"form": form})
+    form = DepartmentForm()
+    return render(request, "temps/department/department_form.html", {"form": form})
+
+def department_edit(request, department_id):
+    department_instance = get_object_or_404(Department, pk = department_id)
+    if request.method == 'POST':
+        form = DepartmentForm(request.POST, instance = department_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:department_view')
+        else:
+            return render(request, "temps/department/department_form.html", {"form":form})
+    form = DepartmentForm(instance= department_instance)
+    return render(request, "temps/department/department_form.html", {"form":form})
+
+def department_delete(request, department_id):
+    department_instance = get_object_or_404(Department, pk = department_id)
+    if request.method == "POST":
+        department_instance.delete()
+        return redirect('my_app:department_view')
+    table_name = "Department"
+    return render(request, "temps/confirm.html", {"instance": department_instance, "table_name" : table_name})
+
 
 @login_required(login_url='/')
 def task_category_view(request):
@@ -77,7 +106,38 @@ def task_category_view(request):
         task_category_instances = get_list_or_404(TaskCategory)
     except:
         pass
-    return render(request, 'temps/task_category_view.html', {"task_category_instances" : task_category_instances})
+    return render(request, 'temps/task/task_category_view.html', {"task_category_instances" : task_category_instances})
+
+def task_category_add(request):
+    if request.method == "POST":
+        form = TaskCategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:task_category_view')
+        else:
+            return render(request, "temps/task/task_category_form.html", {"form":form})
+    form = TaskCategoryForm()
+    return render(request, "temps/task/task_category_form.html", {"form":form})
+
+def task_category_edit(request, task_category_id):
+    task_category_instance = get_object_or_404(TaskCategory, pk = task_category_id)
+    if request.method == "POST":
+        form = TaskCategoryForm(request.POST, instance = task_category_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:task_category_view')
+        else:
+            return render(request, "temps/task/task_category_form.html", {"form" : form})
+    form = TaskCategoryForm(instance= task_category_instance)
+    return render(request, "temps/task/task_category_form.html", {"form" : form})
+
+def task_category_delete(request, task_category_id):
+    task_category_instance = get_object_or_404(TaskCategory, pk = task_category_id)
+    if request.method == "POST":
+        task_category_instance.delete()
+        return redirect('my_app:task_category_view')
+    table_name = "Task Category"
+    return render(request, "temps/confirm.html", {"instance" : task_category_instance, "table_name": table_name})
 
 @login_required(login_url='/')
 def department_groups_view(request):
@@ -86,7 +146,36 @@ def department_groups_view(request):
         department_groups_instances = get_list_or_404(DepartmentGroup)
     except:
         pass
-    return render(request, 'temps/department_groups_view.html', {"department_groups_instances": department_groups_instances})
+    return render(request, 'temps/department/department_groups_view.html', {"department_groups_instances": department_groups_instances})
+
+def department_groups_add(request):
+    if request.method == 'POST':
+        form = DepartmentGroupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:department_groups_view')
+    form = DepartmentGroupForm()
+    return render(request, 'temps/department/department_groups_form.html', {"form" : form}) 
+
+def department_groups_edit(request, department_group_id):
+    department_group_instance = get_object_or_404(DepartmentGroup, pk = department_group_id)
+    if request.method == 'POST':
+        form = DepartmentGroupForm(request.POST, instance = department_group_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:department_groups_view')
+        else:
+            return render(request, 'temps/department/department_groups_form.html', {"form" : form})
+    form = DepartmentGroupForm(instance = department_group_instance)
+    return render(request, 'temps/department/department_groups_form.html', {"form" : form})
+
+def department_groups_delete(request, department_group_id):
+    department_groups_instance = get_object_or_404(DepartmentGroup, pk = department_group_id)
+    if request.method == 'POST':
+        department_groups_instance.delete()
+        return redirect('my_app:department_groups_view')
+    table_name = 'Department Groups'
+    return render(request, 'temps/confirm.html', {"instance" : department_groups_instance, "table_name" : table_name})
 
 @login_required(login_url='/')
 def employees_view(request):
@@ -95,7 +184,30 @@ def employees_view(request):
         employee_instances = get_list_or_404(Employee)
     except:
         pass
-    return render(request, 'temps/employees_view.html', {"employee_instances": employee_instances})
+    return render(request, 'temps/employee/employees_view.html', {"employee_instances": employee_instances})
+
+def employees_add(request):
+    form = EmployeeForm()
+    return render(request, 'temps/employee/employees_form.html', {"form" : form})
+
+def employees_edit(request, employee_id):
+    employee_instance = get_object_or_404(Employee, pk=employee_id)
+    if request.method == 'POST':
+        form = EmployeeForm(request.POST, instance = employee_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:employees_view')
+    form = EmployeeForm(instance= employee_instance)
+    return render(request, 'temps/employee/employees_form.html', {"form" : form})
+
+def employees_delete(request, employee_id):
+    employee_instance = get_object_or_404(Employee, pk = employee_id)
+    if request.method == 'POST':
+        employee_instance.delete()
+        return redirect('my_app:employees_view')
+    table_name = 'Employees'
+    return render(request, 'temps/confirm.html', {"instance": employee_instance, "table_name" : table_name})
+
 
 @login_required(login_url='/')
 def customers_view(request):
@@ -104,7 +216,38 @@ def customers_view(request):
         customer_instances = get_list_or_404(Customer)
     except:
         pass
-    return render(request, 'temps/customers_view.html', {"customer_instances": customer_instances})
+    return render(request, 'temps/customer/customers_view.html', {"customer_instances": customer_instances})
+
+def customer_add(request):
+    if request.method == "POST":
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:customers_view')
+        else:
+            return render(request, 'temps/customer/customer_form.html', {"form":form})
+    form = CustomerForm()
+    return render(request, 'temps/customer/customer_form.html', {"form":form})
+
+def customer_edit(request, customer_id):
+    customer_instance = get_object_or_404(Customer, pk = customer_id)
+    if request.method == "POST":
+        form = CustomerForm(request.POST, instance= customer_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:customers_view')
+        else:
+            return render(request, 'temps/customer/customer_form.html', {"form":form})
+    form = CustomerForm(instance = customer_instance)
+    return render(request, 'temps/customer/customer_form.html', {"form":form})
+
+def customer_delete(request, customer_id):
+    customer_instance = get_object_or_404(Customer, pk = customer_id)
+    if request.method == "POST":
+        customer_instance.delete()
+        return redirect('my_app:customers_view')
+    table_name = 'Customer'
+    return render(request, 'temps/confirm.html', {"instance" : customer_instance, "table_name" : table_name})
 
 @login_required(login_url='/')
 def tasks_view(request):
@@ -113,26 +256,56 @@ def tasks_view(request):
         tasks_instances = get_list_or_404(TaskCode)
     except:
         pass
-    return render(request, 'temps/tasks_view.html', {"tasks_instances": tasks_instances})
+    return render(request, 'temps/task/tasks_view.html', {"tasks_instances": tasks_instances})
+
+def tasks_add(request):
+    if request.method == "POST":
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:tasks_view')
+        else:
+            return render(request, 'temps/task/task_form.html', {"form" : form})
+    form = TaskForm()
+    return render(request, 'temps/task/task_form.html', {"form" : form})
+
+def tasks_edit(request, task_code_id):
+    task_code_instance = get_object_or_404(TaskCode, pk = task_code_id)
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance = task_code_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('my_app:tasks_view')
+        else:
+            return render(request, "temps/task/task_form.html", {"form":form})
+    form = TaskForm(instance = task_code_instance)
+    return render(request, "temps/task/task_form.html", {"form":form})
+
+def tasks_delete(request, task_code_id):
+    task_code_instance = get_object_or_404(TaskCode, pk = task_code_id)
+    table_name = 'Task Code'
+    return render(request, 'temps/confirm.html', {"instance": task_code_instance, "table_name": table_name})
 
 @login_required(login_url='/')
 def invoice_add(request):
     if request.method == 'POST':
         print("POST method is OK")
-        form = InvoiceForm(request.POST, request.FILES)  # Populate the form with POST data
-        print("The form is being made ?")
+        form = InvoiceForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('my_app:invoices_view')
+            if is_admin(request.user):
+                form.save()
+            else:
+                form_data = form.save(commit=False)
+                form_data.employee_id = request.user.id
+                form_data.save()
             print("The form is valid")
-            # Form is valid, print the data collected from the frontend
-            for key, value in form.cleaned_data.items():
-                print(f'{key}: {value}')
+            return redirect('my_app:invoices_view')
         else:
             print("The form is not valid:  ")
             print(form.errors)
+            return render(request, "temps/invoice_form.html", {"form": form})
     form = InvoiceForm()
-    return render(request, 'temps/invoice_form.html', {"form": form})
+    return render(request, 'temps/invoice/invoice_form.html', {"form": form})
 
 @login_required(login_url='/')
 def invoices_view(request):
@@ -141,7 +314,35 @@ def invoices_view(request):
         invoice_instances = get_list_or_404(Invoice)
     except:
         pass
-    return render(request, 'temps/invoices_view.html', {"invoice_instances": invoice_instances})
+    return render(request, 'temps/invoice/invoices_view.html', {"invoice_instances": invoice_instances})
+
+@login_required(login_url='/')
+def invoices_edit(request, invoice_id):
+    try:
+        invoice_instance = get_object_or_404(Invoice, pk = invoice_id)
+        if request.method == 'POST':
+            form = InvoiceForm(request.POST, instance = invoice_instance)
+            if form.is_valid():
+                form.save()
+                return redirect('my_app:invoices_view')
+            else:
+                return render(request, "temps/invoice/invoice_form.html", {"form":form})
+        form = InvoiceForm(instance = invoice_instance)
+        return render(request, "temps/invoice/invoice_form.html", {"form":form})
+    except:
+        return redirect('my_app:invoices_view')
+    
+@login_required(login_url='/')
+def invoices_delete(request, invoice_id):
+    table_name = "Invoices"
+    invoice_instance = get_object_or_404(Invoice, pk = invoice_id)
+    if request.method == "POST":
+        print("I am here")
+        invoice_instance.delete()
+        return redirect('my_app:invoices_view')
+    return render(request, "temps/confirm.html", {"instance" : invoice_instance, "table_name" : table_name})
+
+    
 
 
 

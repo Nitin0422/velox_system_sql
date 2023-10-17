@@ -1,6 +1,8 @@
 from django.db import models
 import os
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import AbstractUser, Group, Permission
+
 
 # Create your models here.
 class Department(models.Model):
@@ -17,17 +19,29 @@ class DepartmentGroup(models.Model):
     def __str__(self):
         return self.group_name
 
-class Employee(models.Model):
-    department = models.ForeignKey(Department, on_delete=models.DO_NOTHING)
-    group = models.ForeignKey(DepartmentGroup, on_delete=models.DO_NOTHING)
-    employee_full_name = models.CharField(max_length=200)
-    employee_contact_number = models.CharField(max_length=200)
-    employee_address = models.CharField(max_length=200)
-    employee_PAN = models.CharField(max_length=200)
-    email = models.EmailField()
+class Employee(AbstractUser): #inherits all the fields present in the default user. 
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = []
+
+    PAN = models.CharField(max_length=200, null=True)
+    address = models.CharField(max_length=50, null=True)
+    phone_number = models.CharField(max_length=20, null=True)
+
+    groups = models.ManyToManyField(Group, related_name='employee_set')
+    user_permissions = models.ManyToManyField(Permission,related_name='employee_set')
 
     def __str__(self):
-        return self.employee_full_name
+        return self.username
+
+class EmployeeAssociation(models.Model):
+    
+    
+    department = models.ForeignKey(Department, on_delete=models.DO_NOTHING)
+    group = models.ForeignKey(DepartmentGroup, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return self.employee.first_name + "-" + self.department.department_name + "-" + self.group.group_name
+
 
 class Customer(models.Model):
     customer_full_name = models.CharField(max_length=200)
@@ -39,19 +53,16 @@ class Customer(models.Model):
 
 class TaskCategory(models.Model):
     task_category_name = models.CharField(max_length=200)
-    department = models.ForeignKey(Department, on_delete= models.DO_NOTHING, null=True)
 
     def __str__(self):
         return self.task_category_name
 
 class TaskCode(models.Model):
     task_category = models.ForeignKey(TaskCategory, on_delete=models.DO_NOTHING)
-    employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING)
-    customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
-    task_date = models.DateField()
+    task_code_name = models.CharField(max_length=200)
 
     def __str__(self):
-        return str(self.id)
+        return self.task_code_name
 
 def validate_file_extension(value):
     ext = os.path.splitext(value.name)[1]  # extracts the extension of file 
@@ -60,6 +71,9 @@ def validate_file_extension(value):
         raise ValidationError('Unsupported file extension.')
 
 class Invoice(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
+    employee = models.ForeignKey(Employee, on_delete=models.DO_NOTHING, default=1)
+    task_category = models.ForeignKey(TaskCategory, on_delete=models.DO_NOTHING, null=True)
     task_code = models.ForeignKey(TaskCode, on_delete=models.DO_NOTHING)
     deal_amount = models.FloatField()
     paid_amount = models.FloatField()
@@ -68,5 +82,5 @@ class Invoice(models.Model):
     invoice_date = models.DateField()
 
     def __str__(self):
-        return self.id
+        return self.customer.customer_full_name
 

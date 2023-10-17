@@ -1,0 +1,182 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+<div>
+  <div class="card mb-4">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h5 class="mb-0">Employe Form</h5>
+      <small class="text-muted float-end"></small>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+    
+        <div class="row mb-3">
+          <label class="col-sm-2 col-form-label" for="{{form.username.id_for_label}}"
+            >User Name</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control"
+              id="{{form.username.id_for_label}}"
+              name="{{form.username.name}}"
+              {% if form.username.value %} value="{{ form.username.value }}"{% endif %}
+            />
+            {% for error in form.username.errors %}
+            <div class="d-flex w-50 justify-content-center px-2 text-danger">{{ error }}</div>
+          {% endfor %}
+          </div>
+          
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="{{form.first_name.id_for_label}}"
+              >First Name</label
+            >
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="{{form.first_name.id_for_label}}"
+                name="{{form.first_name.name}}"
+                {% if form.first_name.value %} value="{{ form.first_name.value }}"{% endif %}
+              />
+              {% for error in form.first_name.errors %}
+              <div class="d-flex w-50 justify-content-center px-2 text-danger">{{ error }}</div>
+            {% endfor %}
+            </div>
+            
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="{{form.last_name.id_for_label}}"
+              >Last Name</label
+            >
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="{{form.last_name.id_for_label}}"
+                name="{{form.last_name.name}}"
+                {% if form.last_name.value %} value="{{ form.last_name.value }}"{% endif %}
+              />
+              {% for error in form.last_name.errors %}
+              <div class="d-flex w-50 justify-content-center px-2 text-danger">{{ error }}</div>
+            {% endfor %}
+            </div>
+            
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="{{form.phone_number.id_for_label}}"
+              >Phone Number</label
+            >
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="{{form.phone_number.id_for_label}}"
+                name="{{form.phone_number.name}}"
+                {% if form.phone_number.value %} value="{{ form.phone_number.value }}"{% endif %}
+              />
+              {% for error in form.phone_number.errors %}
+              <div class="d-flex w-50 justify-content-center px-2 text-danger">{{ error }}</div>
+            {% endfor %}
+            </div>
+            
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="{{form.phone_number.id_for_label}}"
+              >Phone Number</label
+            >
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="{{form.phone_number.id_for_label}}"
+                name="{{form.phone_number.name}}"
+                {% if form.phone_number.value %} value="{{ form.phone_number.value }}"{% endif %}
+              />
+              {% for error in form.phone_number.errors %}
+              <div class="d-flex w-50 justify-content-center px-2 text-danger">{{ error }}</div>
+            {% endfor %}
+            </div>
+            
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="{{form.address.id_for_label}}"
+              >Address</label
+            >
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="{{form.address.id_for_label}}"
+                name="{{form.address.name}}"
+                {% if form.address.value %} value="{{ form.address.value }}"{% endif %}
+              />
+              {% for error in form.address.errors %}
+              <div class="d-flex w-50 justify-content-center px-2 text-danger">{{ error }}</div>
+            {% endfor %}
+            </div>
+            
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="{{form.PAN.id_for_label}}"
+              >PAN</label
+            >
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="{{form.PAN.id_for_label}}"
+                name="{{form.PAN.name}}"
+                {% if form.address.value %} value="{{ form.PAN.value }}"{% endif %}
+              />
+              {% for error in form.PAN.errors %}
+              <div class="d-flex w-50 justify-content-center px-2 text-danger">{{ error }}</div>
+            {% endfor %}
+            </div>
+            
+          </div>
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="{{form.email.id_for_label}}"
+              >Email</label
+            >
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id="{{form.email.id_for_label}}"
+                name="{{form.email.name}}"
+                {% if form.email.value %} value="{{ form.email.value }}"{% endif %}
+              />
+              {% for error in form.email.errors %}
+              <div class="d-flex w-50 justify-content-center px-2 text-danger">{{ error }}</div>
+            {% endfor %}
+            </div>
+            
+          </div>
+
+
+          
+        
+        <div class="row justify-content-end mt-4">
+          <div class="col-sm-10 d-flex justify-content-end gap-2">
+            <a class="btn btn-secondary text-white" href="{% url 'my_app:employees_view' %}"> Back </a>
+            <button type="submit" class="btn btn-primary">Add</button>
+            
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'assets/js/form-basic-inputs.js' %}"></script>
+
+
+{% endblock %}

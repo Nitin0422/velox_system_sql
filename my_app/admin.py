@@ -5,6 +5,7 @@ from .models import *
 admin.site.register(Department)
 admin.site.register(DepartmentGroup)
 admin.site.register(Employee)
+admin.site.register(EmployeeAssociation)
 admin.site.register(Customer)
 admin.site.register(TaskCategory)
 admin.site.register(TaskCode)

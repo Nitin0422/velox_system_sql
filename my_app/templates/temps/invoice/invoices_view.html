@@ -13,16 +13,19 @@
             </div>
             
             <div class="table-responsive text-nowrap">
-            <table class="table">
+            <table class="table" style="overflow: visible;">
                 <thead>
                 <tr class="text-center">
                     <th> Invoice ID</th>
+                    <th> Customer </th>
+                    <th> Employee </th>
                     <th> Task Code</th>
                     <th> Deal Amount</th>
                     <th> Paid Amount </th>
                     <th> Due Amount </th>
-                    <th> Bill File </th>
                     <th> Invoice Date </th>
+                    <th> Bill File </th>
+                    <th> Actions </th>
                     
                 </tr>
                 </thead>
@@ -30,12 +33,31 @@
                 {% for invoice_instance in invoice_instances%}
                 <tr class="table-default text-center">
                     <td>{{invoice_instance.id}}</td>
+                    <td>{{invoice_instance.customer}}</td>
+                    <td>{{invoice_instance.employee}}</td>
                     <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong>{{invoice_instance.task_code}}</strong></td>
                     <td>{{invoice_instance.deal_amount}}</td>
                     <td>{{invoice_instance.paid_amount}}</td>
                     <td>{{invoice_instance.deal_amount}}</td>
-                    <td>{{invoice_instance.bill_file}}</td>
                     <td>{{invoice_instance.invoice_date}}</td>
+                    <td style="max-width: 250px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;">{{invoice_instance.bill_file}}</td>
+                    <td>
+                        <div>
+                            <a href="{% url 'my_app:invoices_edit' invoice_instance.id %}">
+                            <button class="btn btn-icon btn-primary mx-1">
+                                <span class="tf-icons bx bxs-edit"></span>
+                            </button>
+                            </a>
+                            <a href="{% url 'my_app:invoices_delete' invoice_instance.id %}">
+                            <button class="btn btn-icon btn-secondary mx-1">
+                                <span class="tf-icons bx bxs-trash"></span>
+                            </button>
+                            </a>
+                        </div>
+                    </td>
                 </tr>
                 {% endfor %}
                 </tbody>

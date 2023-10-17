@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mt-5">
+    <form method="post">
+        {% csrf_token %}
+    <div class="container  w-100 d-flex mt-5">
+        <div class="row w-100 d-flex justify-content-center mt-5">
+            <div class="col-lg-6 col-md-12">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Delete this record? </h5>
+                        <div class="card-subtitle text-danger  mb-3">Records once deleted cannot be restored</div>
+                        <p class="card-text">
+                            Are you sure you want to delete record {{instance}} of {{table_name}} List?
+                        </p>
+                        <button type = "submit" class="btn btn-secondary mx-1 my-1">Confirm</button>
+                        {% if table_name == "Department"%}
+                            <a href="{% url 'my_app:department_view' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
+                        {% elif table_name == "Invoices"%}
+                            <a href="{% url 'my_app:invoices_view' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
+                        {% elif table_name == "Task Code"%}
+                            <a href="{% url 'my_app:tasks_view' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
+                        {% elif table_name == "Customer"%}
+                            <a href="{% url 'my_app:customers_view' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
+                        {% elif table_name == "Department Groups"%}
+                            <a href="{% url 'my_app:department_groups_view' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
+                        {% elif table_name == "Employees"%}
+                            <a href="{% url 'my_app:employees_view' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
+                        {% else %}
+                            <a href="{% url 'my_app:home' %}" class="btn btn-primary mx-1 my-1">Cancel</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+
+{% endblock %}

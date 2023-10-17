@@ -191,6 +191,7 @@
 
               <form id="formAuthentication" class="mb-3" method="POST">
                 {% csrf_token %}
+                <div class="form-text text-danger">{{ form.non_field_errors }}</div>
                 <div class="mb-3">
                   <label
                     for="{{ form.username.id_for_label }}"
@@ -205,6 +206,9 @@
                     placeholder="Enter your username"
                     autofocus
                   />
+                  {% for error in form.username.errors %}
+                      <div class="form-text text-danger">{{ error }}</div>
+                  {% endfor %}
                 </div>
 
                 <div class="mb-3">
@@ -218,6 +222,9 @@
                     name="{{form.email.name}}"
                     placeholder="Enter your email"
                   />
+                  {% for error in form.email.errors %}
+                      <div class="form-text text-danger">{{ error }}</div>
+                  {% endfor %}
                 </div>
                 <div class="mb-3 form-password-toggle">
                   <label
@@ -238,6 +245,9 @@
                       ><i class="bx bx-hide"></i
                     ></span>
                   </div>
+                  {% for error in form.password1.errors %}
+                      <div class="form-text text-danger">{{ error }}</div>
+                    {% endfor %}
                 </div>
                 <div class="mb-3 form-password-toggle">
                   <label
@@ -258,6 +268,9 @@
                       ><i class="bx bx-hide"></i
                     ></span>
                   </div>
+                  {% for error in form.password2.errors %}
+                      <div class="form-text text-danger">{{ error }}</div>
+                  {% endfor %}
                 </div>
 
                 <div class="mb-3">

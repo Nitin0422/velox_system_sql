@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+<div>
+  <div class="card mb-4">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h5 class="mb-0">Task  Category Form</h5>
+      <small class="text-muted float-end"></small>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        
+        
+        <div class="row mb-3">
+          <label class="col-sm-2 col-form-label" for="{{form.task_category_name.id_for_label}}"
+            >Department Name</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control"
+              id="{{form.task_category_name.id_for_label}}"
+              name="{{form.task_category_name.name}}"
+              {% if form.task_category_name.value %} value="{{ form.task_category_name.value }}"{% endif %}
+            />
+            {% for error in form.task_category_name.errors %}
+            <div class="d-flex w-50 justify-content-center px-2 text-danger">{{ error }}</div>
+          {% endfor %}
+          </div>
+          
+        </div>
+        
+        <div class="row justify-content-end mt-4">
+          <div class="col-sm-10 d-flex justify-content-end gap-2">
+            <a class="btn btn-secondary text-white" href="{% url 'my_app:task_category_view' %}"> Back </a>
+            <button type="submit" class="btn btn-primary">Add</button>
+            
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'assets/js/form-basic-inputs.js' %}"></script>
+
+
+{% endblock %}

@@ -128,17 +128,25 @@
               </a>
             </li>
 
+            <!-- Account Information -->
+            <li class="menu-item">
+              <a href="{% url 'my_app:account_information'%}" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-user-account"></i>
+                <div data-i18n="Analytics">Your Information</div>
+              </a>
+            </li>
+
             {% if is_admin %}
             <!-- Departments Section -->
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Manage Office</span>
             </li>
-            
+
             <!-- Item 1-->
             <li class="menu-item">
               <a href="{% url 'my_app:department_view'%}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-business"></i>
-                
+
                 <div data-i18n="Layouts">Departments</div>
               </a>
             </li>
@@ -149,15 +157,27 @@
                 <div data-i18n="Layouts">Task Categories</div>
               </a>
             </li>
+
+            <!-- Item 1-->
+            <li class="menu-item">
+              <a href="{% url 'my_app:tasks_view'%}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-clipboard"></i>
+                <div data-i18n="Layouts">Task Code</div>
+              </a>
+            </li>
             {% endif %}
-             <!-- Departments Section -->
-             <li class="menu-header small text-uppercase">
+            {% if is_admin or is_department_admin %}
+            <!-- Departments Section -->
+            <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Manage Department</span>
             </li>
 
             <!-- Item 1-->
             <li class="menu-item">
-              <a href="{% url 'my_app:department_groups_view'%}" class="menu-link">
+              <a
+                href="{% url 'my_app:department_groups_view'%}"
+                class="menu-link"
+              >
                 <i class="menu-icon tf-icons bx bx-shape-polygon"></i>
                 <div data-i18n="Layouts">Groups</div>
               </a>
@@ -170,10 +190,25 @@
                 <div data-i18n="Layouts">Employees</div>
               </a>
             </li>
-
-            <!-- Tasks Section -->
+            {% endif %}
+            <!-- Invoices Section -->
             <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">Manage Tasks</span>
+              <span class="menu-header-text">Manage Invoices</span>
+            </li>
+
+            <!-- Item 2-->
+            <li class="menu-item">
+              <a href="{% url 'my_app:invoice_add'%}" class="menu-link">
+                <i class="menu-icon tf-icon bx bx-plus"></i>
+                <div data-i18n="Layouts">Add Invoices</div>
+              </a>
+            </li>
+
+            <li class="menu-item">
+              <a href="{% url 'my_app:invoices_view'%}" class="menu-link">
+                <i class="menu-icon tf-icon bx bx-receipt"></i>
+                <div data-i18n="Layouts">View Invoices</div>
+              </a>
             </li>
 
             <!-- Item 1-->
@@ -183,36 +218,6 @@
                 <div data-i18n="Layouts">Customers</div>
               </a>
             </li>
-
-            <!-- Item 1-->
-            <li class="menu-item">
-              <a href="{% url 'my_app:tasks_view'%}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-clipboard"></i>
-                <div data-i18n="Layouts">Tasks</div>
-              </a>
-            </li>
-
-
-            <!-- Invoices Section -->
-            <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">Manage Invoices</span>
-            </li>
-
-            <!-- Item 2-->
-            <li class="menu-item">
-              <a href="{% url 'my_app:invoice_add'%}" class="menu-link">
-                <i class='menu-icon tf-icon bx bx-plus' ></i>
-                <div data-i18n="Layouts"> Add Invoices </div>
-              </a>
-            </li>
-
-            <li class="menu-item">
-              <a href="{% url 'my_app:invoices_view'%}" class="menu-link">
-                <i class='menu-icon tf-icon bx bx-receipt' ></i>
-                <div data-i18n="Layouts"> View Invoices </div>
-              </a>
-            </li>
-            
           </ul>
         </aside>
         <!-- / Menu -->
@@ -237,11 +242,11 @@
             </div>
 
             <div
-              class="navbar-nav-right d-flex align-items-center"
+              class="navbar-nav-right d-flex align-items-center "
               id="navbar-collapse"
             >
               <!-- Search -->
-              <div class="navbar-nav align-items-center">
+              <!-- <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
                   <i class="bx bx-search fs-4 lh-0"></i>
                   <input
@@ -251,7 +256,7 @@
                     aria-label="Search..."
                   />
                 </div>
-              </div>
+              </div> -->
               <!-- /Search -->
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -279,7 +284,7 @@
                           <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-online">
                               <img
-                                src="../assets/img/avatars/1.png"
+                                src="https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small/profile-icon-design-free-vector.jpg"
                                 alt
                                 class="w-px-40 h-auto rounded-circle"
                               />
@@ -307,7 +312,7 @@
                         <span class="align-middle">Settings</span>
                       </a>
                     </li>
-                    
+
                     <li>
                       <div class="dropdown-divider"></div>
                     </li>
@@ -332,44 +337,6 @@
             <div class="mx-4 my-4">{% block content %}{% endblock %}</div>
 
             <!-- / Content -->
-
-            <!-- Footer -->
-            <footer class="content-footer footer bg-footer-theme">
-              <div
-                class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column"
-              >
-                <div>
-                  <a
-                    href="https://themeselection.com/license/"
-                    class="footer-link me-4"
-                    target="_blank"
-                    >License</a
-                  >
-                  <a
-                    href="https://themeselection.com/"
-                    target="_blank"
-                    class="footer-link me-4"
-                    >More Themes</a
-                  >
-
-                  <a
-                    href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-                    target="_blank"
-                    class="footer-link me-4"
-                    >Documentation</a
-                  >
-
-                  <a
-                    href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-                    target="_blank"
-                    class="footer-link me-4"
-                    >Support</a
-                  >
-                </div>
-              </div>
-            </footer>
-            <!-- / Footer -->
-
             <div class="content-backdrop fade"></div>
           </div>
           <!-- Content wrapper -->
@@ -385,7 +352,7 @@
     <script>
       // Get the current URL and display it
       var currentUrl = window.location.pathname;
-  
+
       // Select all the anchor elements with href attributes
       var menuLinks = document.querySelectorAll(".menu-link");
 
@@ -409,14 +376,12 @@
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    
 
     <!-- Main JS -->
     <script src="{% static 'assets/js/main.js'%}"></script>
 
     <!-- Page JS -->
     <script src="{% static 'assets/js/dashboards-analytics.js'%}"></script>
-    
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
